@@ -27,7 +27,7 @@ public class Reservation {
 	
 	@OneToOne
 	@JoinColumn(name = "RESSOURCE_ID")
-	private Reservation reservation;
+	private Ressource ressource;
 	
 	@Column(name="DATE_BEGIN")	
 	private Date dateBegin;
@@ -47,11 +47,11 @@ public class Reservation {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Reservation getReservation() {
-		return reservation;
+	public Ressource getRessource() {
+		return ressource;
 	}
-	public void setReservation(Reservation reservation) {
-		this.reservation = reservation;
+	public void setReservation(Ressource ressource) {
+		this.ressource = ressource;
 	}
 	public Date getDateBegin() {
 		return dateBegin;
