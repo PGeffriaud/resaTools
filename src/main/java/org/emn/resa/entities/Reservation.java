@@ -1,6 +1,6 @@
 package org.emn.resa.entities;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,10 +30,10 @@ public class Reservation {
 	private Reservation reservation;
 	
 	@Column(name="DATE_BEGIN")	
-	private Timestamp dateBegin;
+	private Date dateBegin;
 	
 	@Column(name="DATE_END")
-	private Timestamp dateEnd;
+	private Date dateEnd;
 	
 	public Integer getId() {
 		return id;
@@ -53,16 +53,16 @@ public class Reservation {
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
-	public Timestamp getDateBegin() {
+	public Date getDateBegin() {
 		return dateBegin;
 	}
-	public void setDateBegin(Timestamp dateBegin) {
+	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-	public Timestamp getDateEnd() {
+	public Date getDateEnd() {
 		return dateEnd;
 	}
-	public void setDateEnd(Timestamp dateEnd) {
+	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 }
