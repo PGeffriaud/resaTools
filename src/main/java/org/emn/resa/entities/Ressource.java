@@ -1,10 +1,13 @@
 package org.emn.resa.entities;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class Ressource {
 	
 	@Column(name="DESCRIPTION")
 	private String description;
+	
+	@ManyToMany(mappedBy = "ressourceCollection")
+	private Collection<Type> typeCollection;
 	
 	public Integer getId() {
 		return id;
@@ -39,6 +45,12 @@ public class Ressource {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Collection<Type> getType() {
+		return typeCollection;
+	}
+	public void setType(Collection<Type> typeCollection) {
+		this.typeCollection = typeCollection;
 	}
 	
 }
