@@ -2,6 +2,10 @@ package org.emn.resa.servlets;
 
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.emn.resa.entities.Type;
 import org.emn.resa.entities.User;
 
 /**
@@ -41,8 +44,28 @@ public class TemplateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String login = request.getParameter("login");
+		String pass = request.getParameter("pass");
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("RESOURCE_LOCAL");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+		System.out.println("COMIITING");
+		Query q = entityManager.createQuery("SELECT u FROM USER u WHERE u.Login = :login AND u.Password = :pass");
+        q.setParameter("login", login);
+        q.setParameter("pass", pass);
+        try{
+            User user = (User) q.getSingleResult();
+          if (login.equalsIgnoreCase(user.getLogin())&&pass.equals(user.getPassword())) {
+        	  System.out.println("Success");
+          }
+          else{
+        	  System.out.println("fail");
+          }
+        }catch(Exception e){      
+            
+        }
+		entityManager.getTransaction().commit();
+
 	}
 
 }
