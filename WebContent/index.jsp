@@ -17,10 +17,10 @@
 		</div>
 		<div class="col-md-9">
 			<c:if test="${not empty page}">
-				<td class="page"><jsp:include page="include/${page}.jspf" /></td>
+				<td class="page"><jsp:include page="include/${page}.jsp" /></td>
 			</c:if>
 			<c:if test="${empty page}">
-				<td class="page"><jsp:include page="include/accueil.jspf" /></td>
+				<td class="page"><jsp:include page="include/accueil.jsp" /></td>
 			</c:if>
 		</div>
 	</div>
