@@ -46,26 +46,21 @@ public class TemplateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String pass = request.getParameter("pass");
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("RESOURCE_LOCAL");
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("resaTools");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		System.out.println("COMIITING");
-		Query q = entityManager.createQuery("SELECT u FROM USER u WHERE u.Login = :login AND u.Password = :pass");
-        q.setParameter("login", login);
-        q.setParameter("pass", pass);
-        try{
-            User user = (User) q.getSingleResult();
-          if (login.equalsIgnoreCase(user.getLogin())&&pass.equals(user.getPassword())) {
-        	  System.out.println("Success");
-          }
-          else{
-        	  System.out.println("fail");
-          }
-        }catch(Exception e){      
-            
-        }
-		entityManager.getTransaction().commit();
-
+		Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :pass");
+		q.setParameter("login", login);
+		q.setParameter("pass", pass);
+		try {
+			User user = (User) q.getSingleResult();
+			if (login.equalsIgnoreCase(user.getLogin()) && pass.equals(user.getPassword())) {
+				System.out.println("Success");
+			}
+		} catch (Exception e) {
+			System.out.println("Fail");
+		}
 	}
 
 }
