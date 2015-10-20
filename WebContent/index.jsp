@@ -17,9 +17,14 @@
 		</div>
 		<div class="col-md-9">
 			<c:if test="${not empty query and query }">
-				<div class="alert alert-success" role="alert">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<div class="alert alert-success">
+					<span class="glyphicon glyphicon-ok"></span>
 					Modification effectuée avec succès</div>
+			</c:if>
+			<c:if test="${not empty query and not query }">
+				<div class="alert alert-warning">
+					<span class="glyphicon glyphicon-remove"></span>
+					Le type existe déjà</div>
 			</c:if>
 			<c:if test="${not empty page}">
 				<td class="page"><jsp:include page="include/${page}.jsp" /></td>

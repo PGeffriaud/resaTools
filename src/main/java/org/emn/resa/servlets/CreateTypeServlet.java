@@ -1,10 +1,12 @@
 package org.emn.resa.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,14 +45,22 @@ public class CreateTypeServlet extends HttpServlet {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		
-		Type t = new Type();
-		t.setName(nomType);
-		em.persist(t);
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
+		// Ajout d'un type uniquement s'il n'existe pas déjà
+		Query q = em.createQuery("SELECT t FROM Type t WHERE t.name = :name");
+		q.setParameter("name", nomType);
+		List<Type> listRes = q.getResultList();
 		
-		request.setAttribute("query", true);
+		if(listRes.size() == 0){
+			Type t = new Type();
+			t.setName(nomType);
+			em.persist(t);
+			em.getTransaction().commit();
+			em.close();
+			emf.close();
+			request.setAttribute("query", true);
+		}
+		else request.setAttribute("query", false);
+		
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
 		rd.forward(request, response);
 	}
