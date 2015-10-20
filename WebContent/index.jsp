@@ -16,21 +16,12 @@
 			<%@ include file="include/menu.jspf" %>
 		</div>
 		<div class="col-md-9">
-			<c:if test="${not empty query and query }">
-				<div class="alert alert-success">
-					<span class="glyphicon glyphicon-ok"></span>
-					Modification effectuée avec succès</div>
-			</c:if>
-			<c:if test="${not empty query and not query }">
-				<div class="alert alert-warning">
-					<span class="glyphicon glyphicon-remove"></span>
-					Le type existe déjà</div>
-			</c:if>
+			<%@ include file="include/infos.jspf" %>
 			<c:if test="${not empty page}">
-				<td class="page"><jsp:include page="include/${page}.jsp" /></td>
+				<jsp:include page="include/${page}.jsp" />
 			</c:if>
 			<c:if test="${empty page}">
-				<td class="page"><jsp:include page="include/accueil.jsp" /></td>
+				<jsp:include page="include/accueil.jsp" />
 			</c:if>
 		</div>
 	</div>
