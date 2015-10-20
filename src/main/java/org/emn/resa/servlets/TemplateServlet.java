@@ -45,9 +45,16 @@ public class TemplateServlet extends HttpServlet {
 		em.close();
 		
 		String path = request.getPathInfo();
-		request.setAttribute("page", path.substring(1));
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-		rd.forward(request, response);
+		if(path.substring(1).equals("login")){
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+			rd.forward(request, response);
+		}	
+		else{
+			request.setAttribute("page", path.substring(1));
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
+		}	
+		
 	}
 
 	/**
@@ -59,12 +66,13 @@ public class TemplateServlet extends HttpServlet {
 		
 		if(request.getParameter("buttonDeconnexion") != null){
 			request.getSession().invalidate();
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
 			rd.forward(request, response);
 		}
 		else if(request.getParameter("buttonConnexion") != null){
 			String login = request.getParameter("login");
 			String pass = request.getParameter("pass");
+			System.out.println(login);
 			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("resaTools");
 			EntityManager entityManager = entityManagerFactory.createEntityManager();
 			entityManager.getTransaction().begin();
@@ -77,17 +85,20 @@ public class TemplateServlet extends HttpServlet {
 				if (login.equalsIgnoreCase(user.getLogin()) && pass.equals(user.getPassword())) {
 					System.out.println("Success");
 			        session.setAttribute("currentSessionUser",user); 
+			        request.setAttribute("page", "accueil");
+			        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			        rd.forward(request, response);
 				}
 			}
 			catch (Exception e){
 				System.out.println("Exception : " + e.getMessage());
+				session.setAttribute("connectedTried",true);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+				rd.forward(request, response);
 			}
 			finally{
 				entityManagerFactory.close();
 				entityManager.close();
-				session.setAttribute("connectedTried",true);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-				rd.forward(request, response);
 			}
 		}
 	}
