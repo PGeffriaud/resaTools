@@ -34,6 +34,12 @@
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
@@ -57,7 +63,7 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.189</version>
 		</dependency>
-				<!-- Logging : SLF4J is used by Hibernate -->
+		<!-- Logging : SLF4J is used by Hibernate -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
