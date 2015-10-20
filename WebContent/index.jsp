@@ -13,7 +13,7 @@
 	<div class="row col-md-12"><%@ include file="include/header.jspf" %></div>
 	<div class="row">
 		<div class="col-md-3">
-			<%@ include file="include/menu.jspf" %>
+			<%@ include file="include/menu.jsp" %>
 		</div>
 		<div class="col-md-9">
 			<%@ include file="include/infos.jspf" %>
