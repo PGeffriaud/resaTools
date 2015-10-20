@@ -16,6 +16,11 @@
 			<%@ include file="include/menu.jspf" %>
 		</div>
 		<div class="col-md-9">
+			<c:if test="${not empty query and query }">
+				<div class="alert alert-success" role="alert">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					Modification effectuée avec succès</div>
+			</c:if>
 			<c:if test="${not empty page}">
 				<td class="page"><jsp:include page="include/${page}.jsp" /></td>
 			</c:if>

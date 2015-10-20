@@ -1,6 +1,7 @@
 package org.emn.resa.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -34,6 +35,14 @@ public class TemplateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("resaTools");
+		EntityManager em = entityManagerFactory.createEntityManager();
+		Query q = em.createQuery("SELECT t.name FROM Type t");
+		List<String> list = q.getResultList();
+		request.getSession().setAttribute("listType", list);
+		entityManagerFactory.close();
+		em.close();
+		
 		String path = request.getPathInfo();
 		request.setAttribute("page", path.substring(1));
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
@@ -60,7 +69,9 @@ public class TemplateServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			System.out.println("Fail");
+		} finally {
+			entityManagerFactory.close();
+			entityManager.close();
 		}
 	}
-
 }
