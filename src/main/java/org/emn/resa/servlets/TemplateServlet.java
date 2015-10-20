@@ -45,7 +45,9 @@ public class TemplateServlet extends HttpServlet {
 						case "addtype": 
 							RessourceManager.addType(request.getParameter("typeName"));
 							break;
-						case "deltype": break;
+						case "deltype":
+							RessourceManager.deleteType(Integer.parseInt(request.getParameter("id")));
+							break;
 						case "updatetype": break;
 						case "address": break;
 						case "delress": break;
