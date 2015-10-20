@@ -16,11 +16,12 @@
 			<%@ include file="include/menu.jspf" %>
 		</div>
 		<div class="col-md-9">
+			<%@ include file="include/infos.jspf" %>
 			<c:if test="${not empty page}">
-				<td class="page"><jsp:include page="include/${page}.jsp" /></td>
+				<jsp:include page="include/${page}.jsp" />
 			</c:if>
 			<c:if test="${empty page}">
-				<td class="page"><jsp:include page="include/accueil.jsp" /></td>
+				<jsp:include page="include/accueil.jsp" />
 			</c:if>
 		</div>
 	</div>
