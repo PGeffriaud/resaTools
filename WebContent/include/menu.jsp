@@ -12,11 +12,16 @@
 				<li class="list-group-item"><a
 					href="${pageContext.request.contextPath}/page/reservations">Réservations</a></li>
 			</ul>
-			<p>Bonjour ${currentSessionUser.firstname}
-				${currentSessionUser.name}</p>
-			<form id="formAuth" action="" method="POST" class="form">
-				<input type="submit" class="btn btn-primary" name="buttonDeconnexion" value="Déconnexion" />
-			</form>
+			<div id="body" class="panel panel-default">
+				<div class="panel-heading">Utilisateur</div>
+				<div class="panel-body">
+					<p>${currentSessionUser.firstname}.${currentSessionUser.name} (${currentSessionUser.login})</p>
+					<form id="formAuth" action="" method="POST" class="form">
+						<input type="submit" class="btn btn-primary"
+							name="buttonDeconnexion" value="Déconnexion" />
+					</form>
+				</div>
+			</div>
 		</c:if>
 		<c:if test="${empty currentSessionUser}">
 			<c:if test="${connectedTried == true}">
@@ -33,7 +38,8 @@
 						placeholder="Password" />
 				</div>
 				<div class="form-group">
-					<input type="submit" class="btn btn-primary" name="buttonConnexion" value="Connexion" />
+					<input type="submit" class="btn btn-primary" name="buttonConnexion"
+						value="Connexion" />
 				</div>
 			</form>
 		</c:if>
