@@ -1,7 +1,6 @@
 package org.emn.resa.servlets;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,11 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.emn.resa.entities.User;
+import org.emn.resa.managers.RessourceManager;
 
 /**
  * Servlet implementation class TemplateServlet
  */
-@WebServlet("/page/*")
+@WebServlet("/action/*")
 public class TemplateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,13 +36,31 @@ public class TemplateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("resaTools");
-		EntityManager em = entityManagerFactory.createEntityManager();
-		Query q = em.createQuery("SELECT t.name FROM Type t");
-		List<String> list = q.getResultList();
-		request.getSession().setAttribute("listType", list);
-		entityManagerFactory.close();
-		em.close();
+		String fullPath = request.getPathInfo().substring(1);
+		String[] paths = fullPath.split("/");
+		switch(paths[0]){
+			case "ressources": 
+				if(paths.length > 1){
+					switch (paths[1]) {
+						case "addtype": 
+							RessourceManager.addType(request.getParameter("typeName"));
+							break;
+						case "deltype": break;
+						case "updatetype": break;
+						case "address": break;
+						case "delress": break;
+						case "updateress": break;
+						default: break;
+					}
+				}
+				request.getSession().setAttribute("listType", RessourceManager.getTypeList());
+				break;
+			case "reservations": break;
+			case "user": break;
+			case "login": break;
+			case "logout": break;
+			default: break;
+		}
 		
 		String path = request.getPathInfo();
 		if(path.substring(1).equals("login")){
@@ -50,18 +68,18 @@ public class TemplateServlet extends HttpServlet {
 			rd.forward(request, response);
 		}	
 		else{
-			request.setAttribute("page", path.substring(1));
+			request.setAttribute("page", paths[0]);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}	
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		doGet(request, response);
+
 		HttpSession session = request.getSession(true);
 		
 		if(request.getParameter("buttonDeconnexion") != null){

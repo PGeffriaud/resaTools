@@ -2,7 +2,7 @@
 <div id="body" class="panel panel-default">
 <div class="panel-heading">Ressources</div>
 <div class="panel-body">
-	<form action="${pageContext.request.contextPath}/addtype" method="post" class="form" id="form-addtype">
+	<form action="${pageContext.request.contextPath}/action/ressources/addtype" method="post" class="form" id="form-addtype">
 	<div class="row">
 		<div class="col-md-3">Créer un type de ressources</div>
 		<div class="form-group col-md-5">
@@ -14,11 +14,11 @@
 	</div>
 	</form>
 	<div class="row">
-	<ul>
-	<c:forEach items="${listType}" var="i">
-		<li><c:out value='${i}'/></li>
-	</c:forEach>
-	</ul>
+		<div class="col-md-12">
+		<c:forEach items="${listType}" var="i">
+			<span class="label label-default"><c:out value='${i}'/></span>
+		</c:forEach>
+		</div>
 	</div>
 </div>
 </div>

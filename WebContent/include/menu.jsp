@@ -2,17 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:if test="${not empty currentSessionUser}">
+<%-- <c:if test="${not empty currentSessionUser}"> --%>
 	<div id="menu" class="panel panel-default">
 		<div class="panel-body">
 			<ul class="list-group">
-				<li class="list-group-item"><a
-					href="${pageContext.request.contextPath}/page/accueil">Accueil</a></li>
-				<li class="list-group-item"><a
-					href="${pageContext.request.contextPath}/page/ressources">Ressources</a></li>
-				<li class="list-group-item"><a
-					href="${pageContext.request.contextPath}/page/reservations">Réservations</a></li>
-			</ul>
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/accueil">Accueil</a></li>
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/ressources">Ressources</a></li>
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/reservations">Réservations</a></li>
+		</ul>
 			<div id="body" class="panel panel-default">
 				<div class="panel-heading">Utilisateur</div>
 				<div class="panel-body">
@@ -26,4 +23,4 @@
 			</div>
 		</div>
 	</div>
-</c:if>
+<%-- </c:if> --%>
