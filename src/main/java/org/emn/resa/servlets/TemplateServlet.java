@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import org.emn.resa.entities.User;
 import org.emn.resa.managers.RessourceManager;
-import org.emn.resa.managers.ConnexionManager;
 
 /**
  * Servlet implementation class TemplateServlet
@@ -39,7 +38,6 @@ public class TemplateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String fullPath = request.getPathInfo().substring(1);
 		String[] paths = fullPath.split("/");
-		
 		switch(paths[0]){
 			case "ressources": 
 				if(paths.length > 1){
@@ -61,36 +59,21 @@ public class TemplateServlet extends HttpServlet {
 				break;
 			case "reservations": break;
 			case "user": break;
-			case "login":
-				String login = request.getParameter("login");
-				String pass = request.getParameter("pass");
-				if(ConnexionManager.connect(login, pass) != null){
-					request.getSession().setAttribute("currentSessionUser",ConnexionManager.connect(login, pass)); 
-					request.setAttribute("page", "accueil");
-			        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-			        rd.forward(request, response);
-				}
-				else{
-					if(login != null){
-						request.getSession().setAttribute("connectedTried",true);
-					}
-					RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
-					rd.forward(request, response);
-				}
-				break;
-			case "logout": 
-				request.getSession().invalidate();
-				response.sendRedirect(request.getContextPath()+"/action/login" );
-				break;
+			case "login": break;
+			case "logout": break;
 			default: break;
 		}
 		
-		if(!paths[0].equals("login") && !paths[0].equals("logout")){
+		String path = request.getPathInfo();
+		if(path.substring(1).equals("login")){
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+			rd.forward(request, response);
+		}	
+		else{
 			request.setAttribute("page", paths[0]);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
-		}
-		
+		}	
 	}
 
 	/**
@@ -98,5 +81,45 @@ public class TemplateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+
+		HttpSession session = request.getSession(true);
+		
+		if(request.getParameter("buttonDeconnexion") != null){
+			request.getSession().invalidate();
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+			rd.forward(request, response);
+		}
+		else if(request.getParameter("buttonConnexion") != null){
+			String login = request.getParameter("login");
+			String pass = request.getParameter("pass");
+			System.out.println(login);
+			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("resaTools");
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			entityManager.getTransaction().begin();
+			Query q = entityManager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :pass");
+			q.setParameter("login", login);
+			q.setParameter("pass", pass);
+			
+			try{
+				User user = (User) q.getSingleResult();
+				if (login.equalsIgnoreCase(user.getLogin()) && pass.equals(user.getPassword())) {
+					System.out.println("Success");
+			        session.setAttribute("currentSessionUser",user); 
+			        request.setAttribute("page", "accueil");
+			        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			        rd.forward(request, response);
+				}
+			}
+			catch (Exception e){
+				System.out.println("Exception : " + e.getMessage());
+				session.setAttribute("connectedTried",true);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+				rd.forward(request, response);
+			}
+			finally{
+				entityManagerFactory.close();
+				entityManager.close();
+			}
+		}
 	}
 }

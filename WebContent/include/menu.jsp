@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%-- <c:if test="${not empty currentSessionUser}"> --%>
+<c:if test="${not empty currentSessionUser}">
 	<div id="menu" class="panel panel-default">
 		<div class="panel-body">
 			<ul class="list-group">
@@ -15,7 +15,7 @@
 				<div class="panel-body">
 					<p>${currentSessionUser.firstname}.${currentSessionUser.name}
 						(${currentSessionUser.login})</p>
-					<form id="formAuth" action="" method="POST" class="form">
+					<form id="formAuth" action="${pageContext.request.contextPath}/action/logout" method="POST" class="form">
 						<input type="submit" class="btn btn-primary"
 							name="buttonDeconnexion" value="Déconnexion" />
 					</form>
@@ -23,4 +23,4 @@
 			</div>
 		</div>
 	</div>
-<%-- </c:if> --%>
+</c:if>

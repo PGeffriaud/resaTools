@@ -8,6 +8,9 @@ public abstract class AbstractObjectManager {
 	private static EntityManagerFactory emf;
 	protected static EntityManager em;
 	
+	/**
+	 * Create entityManagerFactory, entityManager and launch the transaction
+	 */
 	protected static void init(){
 		emf = Persistence.createEntityManagerFactory("resaTools");
 		em = emf.createEntityManager();

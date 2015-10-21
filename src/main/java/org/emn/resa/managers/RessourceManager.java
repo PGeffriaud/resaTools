@@ -29,9 +29,21 @@ public class RessourceManager extends AbstractObjectManager {
 
 	public static List<Type> getTypeList() {
 		init();
-		Query q = em.createQuery("SELECT t.name FROM Type t");
+		Query q = em.createQuery("SELECT t.id, t.name FROM Type t");
 		List<Type> list = q.getResultList();
 		close();
 		return list;
+	}
+
+	public static void deleteType(Integer id) {
+		init();
+		Type t = em.find(Type.class, id);
+		if(t != null){
+			em.remove(t);
+			em.getTransaction().commit();
+		}
+		/*TODO supprimer les associations avec les ressources
+		Et si une ressource n'a que ce type ? supprimer la ressource ? */
+		close();
 	}
 }
