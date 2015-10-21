@@ -9,6 +9,7 @@
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/accueil">Accueil</a></li>
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/ressources">Ressources</a></li>
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/reservations">Réservations</a></li>
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/user">Utilisateurs</a></li>
 		</ul>
 			<div id="body" class="panel panel-default">
 				<div class="panel-heading">Utilisateur</div>

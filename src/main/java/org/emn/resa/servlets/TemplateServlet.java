@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.emn.resa.managers.RessourceManager;
+import org.emn.resa.managers.UserManager;
 import org.emn.resa.managers.ConnexionManager;
 
 /**
@@ -63,6 +64,21 @@ public class TemplateServlet extends HttpServlet {
 		case "reservations":
 			break;
 		case "user":
+			if (paths.length > 1) {
+				switch (paths[1]) {
+//				case "addUser":
+//					RessourceManager.addType(request.getParameter("typeName"));
+//					break;
+				case "delUser":
+					if(request.getParameter("delUserButton") != null){
+						UserManager.deleteUser(request.getParameter("delUserButton"));
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			request.getSession().setAttribute("listUser", UserManager.getUserList());
 			break;
 		case "login":
 			handleConnexion(request, response);
