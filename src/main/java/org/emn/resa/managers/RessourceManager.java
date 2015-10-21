@@ -80,4 +80,14 @@ public class RessourceManager extends AbstractObjectManager {
 		close();
 		return list;
 	}
+
+	public static void deleteRessource(int id) {
+		init();
+		Ressource r = em.find(Ressource.class, id);
+		if(r != null){
+			em.remove(r);
+			em.getTransaction().commit();
+		}
+		close();
+	}
 }

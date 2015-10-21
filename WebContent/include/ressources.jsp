@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<input type="text" name="nameRess" placeholder="Name" class="form-control" required/>
-				<textarea name="textRess" placeholder="Description" class="form-control"></textarea>
+				<textarea name="textRess" placeholder="Description" class="form-control" maxlength="255"></textarea>
 			</div>
 			<div class="col-md-5">
 				<select required multiple class="form-control" name="selectType">
@@ -47,6 +47,41 @@
 			<input type="submit" value="Create" class="btn btn-primary"/>
 		</div>
 	</form>
+	</div>
+	<div class="row">
+	<br/>
+	<hr>
+	<h4>Liste des ressources</h4>
+	<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Description</th>
+					<th>Types</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="current" items="${listRess}">
+					<tr>
+						<td>${current.name}</td>
+						<td>${current.description}</td>
+						<td>
+							<c:forEach items="${current.type}" var="t"><span class="label label-default">${t.name}</span>&nbsp;</c:forEach>
+						</td>
+						<td>
+							<form
+								action="${pageContext.request.contextPath}/action/ressources/delress"
+								method="post" class="form" id="form-delUser">
+								<button type="submit" name="delRessButton" value="${current.id}"
+									class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </div>
 </div>

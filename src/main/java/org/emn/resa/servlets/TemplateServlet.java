@@ -56,7 +56,10 @@ public class TemplateServlet extends HttpServlet {
 					RessourceManager.addRessource(name, desc, types);
 					break;
 				case "delress":
-					break;
+					String idRess = request.getParameter("delRessButton");
+					if(idRess != null){
+						RessourceManager.deleteRessource(Integer.parseInt(idRess));
+					}
 				case "updateress":
 					break;
 				default:
