@@ -13,30 +13,36 @@
 <title>Login</title>
 </head>
 <body>
-	<c:if test="${empty currentSessionUser}">
-		<div class="modal-header">
-			<h1 class="text-center">Login</h1>
-		</div>
-		<div class="modal-body">
-			<c:if test="${connectedTried == true}">
-				<div class="alert alert-danger">Votre identifiant est inconnu
-					ou votre mot de passe incorrect.</div>
-			</c:if>
-			<form id="formAuth" action="" method="POST" class="form">
-				<div class="form-group">
-					<input type="text" name="login" id="login" class="form-control"
-						placeholder="Login" />
-				</div>
-				<div class="form-group">
-					<input type="password" name="pass" id="pass" class="form-control"
-						placeholder="Password" />
-				</div>
-				<div class="form-group">
-					<input type="submit" class="btn btn-primary btn-lg btn-block" name="buttonConnexion"
-						value="Connexion" />
-				</div>
-			</form>
-		</div>
-	</c:if>
+	<div class="container">
+		<div class="row col-md-12"><%@ include
+				file="../include/header.jspf"%></div>
+		<c:if test="${empty currentSessionUser}">
+			<div class="modal-header">
+				<h1 class="text-center">Connexion</h1>
+			</div>
+			<div class="modal-body">
+				<c:if test="${connectedTried == true}">
+					<div class="alert alert-danger">Votre identifiant est inconnu
+						ou votre mot de passe incorrect.</div>
+				</c:if>
+				<form id="formAuth" action="" method="POST" class="form">
+					<div class="form-group">
+						<input type="text" name="login" id="login" class="form-control"
+							placeholder="Login" />
+					</div>
+					<div class="form-group">
+						<input type="password" name="pass" id="pass" class="form-control"
+							placeholder="Password" />
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-lg btn-block"
+							name="buttonConnexion" value="Connexion" />
+					</div>
+				</form>
+			</div>
+		</c:if>
+	</div>
+	<div class="row col-md-12"><%@ include
+			file="../include/footer.jspf"%></div>
 </body>
 </html>
