@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -22,7 +24,7 @@ public class Type {
 	@Column(name="NAME")
 	private String name;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="typeCollection")
 	private Collection<Ressource> ressourceCollection;
 	
 	public Integer getId() {

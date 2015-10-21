@@ -50,6 +50,10 @@ public class TemplateServlet extends HttpServlet {
 				case "updatetype":
 					break;
 				case "address":
+					String[] types = request.getParameterValues("selectType");
+					String name = request.getParameter("nameRess");
+					String desc = request.getParameter("textRess");
+					RessourceManager.addRessource(name, desc, types);
 					break;
 				case "delress":
 					break;
@@ -60,6 +64,7 @@ public class TemplateServlet extends HttpServlet {
 				}
 			}
 			request.getSession().setAttribute("listType", RessourceManager.getTypeList());
+			request.getSession().setAttribute("listRess", RessourceManager.getRessourceList());
 			break;
 		case "reservations":
 			break;

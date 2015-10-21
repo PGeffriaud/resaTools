@@ -4,24 +4,49 @@
 <div class="panel-body">
 <div class="panel">
 	<div class="row">
+	<h4>Créer un type</h4>
 	<form action="${pageContext.request.contextPath}/action/ressources/addtype" method="post" class="form" id="form-addtype">
-		<div class="col-md-2"><label for="typeName">Create new type</label></div>
-		<div class="form-group col-md-6">
+		<div class="row">
+		<div class="col-md-5">
 			<input type="text" name="typeName" id="typeName" class="form-control" placeholder="Name"/>
 		</div>
-		<div class="form-group col-md-3">
+		<div class="col-md-7">
 			<input type="submit" class="btn btn-primary" value="Create">
+		</div>
 		</div>
 	</form>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
+	<div class="row col-md-12">
 		<c:forEach items="${listType}" var="i">
-			<span class="label label-default"><c:out value='${i[1]}'/>
-				<a title="remove this type" href="${pageContext.request.contextPath}/action/ressources/deltype?id=${i[0]}"><span class="glyphicon glyphicon-remove" style="color:black"></span></a>
+			<span class="label label-default"><c:out value='${i.name}'/>
+				<a title="remove this type" href="${pageContext.request.contextPath}/action/ressources/deltype?id=${i.id}"><span class="glyphicon glyphicon-remove" style="color:black"></span></a>
 			</span>&nbsp;
 		</c:forEach>
 		</div>
+	<div class="row">
+	<br/>
+	<hr>
+	<h4>Créer une ressource</h4>
+	<form action="${pageContext.request.contextPath}/action/ressources/address" method="post">
+		<div class="row">
+			<div class="col-md-6">
+				<input type="text" name="nameRess" placeholder="Name" class="form-control" required/>
+				<textarea name="textRess" placeholder="Description" class="form-control"></textarea>
+			</div>
+			<div class="col-md-5">
+				<select required multiple class="form-control" name="selectType">
+				<option disabled>Choose associated types</option>
+				<c:forEach items="${listType}" var="i">
+					<option value="${i.id}">${i.name}</option>
+				</c:forEach>
+				</select>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<div class="row col-md-12">
+			<input type="submit" value="Create" class="btn btn-primary"/>
+		</div>
+	</form>
 	</div>
 </div>
 </div>
