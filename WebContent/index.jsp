@@ -8,6 +8,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <title>resaTools</title>
 </head>
+<c:if test="${not empty currentSessionUser}">
 <body>
 <div class="container">
 	<div class="row col-md-12"><%@ include file="include/header.jspf" %></div>
@@ -27,6 +28,9 @@
 	</div>
 	<div class="row col-md-12"><%@ include file="include/footer.jspf" %></div>
 </div>
-
 </body>
+</c:if>
+<c:if test="${empty currentSessionUser}">
+<jsp:forward page="/jsp/login.jsp"></jsp:forward>
+</c:if>
 </html>

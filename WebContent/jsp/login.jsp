@@ -25,7 +25,7 @@
 					<div class="alert alert-danger">Votre identifiant est inconnu
 						ou votre mot de passe incorrect.</div>
 				</c:if>
-				<form id="formAuth" action="" method="POST" class="form">
+				<form id="formAuth" action="${pageContext.request.contextPath}/action/login" method="POST" class="form">
 					<div class="form-group">
 						<input type="text" name="login" id="login" class="form-control"
 							placeholder="Login" />
@@ -35,8 +35,7 @@
 							placeholder="Password" />
 					</div>
 					<div class="form-group">
-						<input type="submit" class="btn btn-primary btn-lg btn-block"
-							name="buttonConnexion" value="Connexion" />
+						<input type="submit" class="btn btn-primary btn-lg btn-block" value="Connexion" />
 					</div>
 				</form>
 			</div>

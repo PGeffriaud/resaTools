@@ -65,20 +65,7 @@ public class TemplateServlet extends HttpServlet {
 		case "user":
 			break;
 		case "login":
-			String login = request.getParameter("login");
-			String pass = request.getParameter("pass");
-			if (ConnexionManager.connect(login, pass) != null) {
-				request.getSession().setAttribute("currentSessionUser", ConnexionManager.connect(login, pass));
-				request.setAttribute("page", "accueil");
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-				rd.forward(request, response);
-			} else {
-				if (login != null) {
-					request.getSession().setAttribute("connectedTried", true);
-				}
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
-				rd.forward(request, response);
-			}
+			handleConnexion(request, response);
 			break;
 		case "logout":
 			request.getSession().invalidate();
@@ -103,5 +90,23 @@ public class TemplateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
+	}
+	
+	private void handleConnexion(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String login = request.getParameter("login");
+		String pass = request.getParameter("pass");
+		if (ConnexionManager.connect(login, pass) != null) {
+			request.getSession().setAttribute("currentSessionUser", ConnexionManager.connect(login, pass));
+			request.setAttribute("page", "accueil");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
+		} else {
+			if (login != null) {
+				request.getSession().setAttribute("connectedTried", true);
+			}
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
+			rd.forward(request, response);
+		}
 	}
 }
