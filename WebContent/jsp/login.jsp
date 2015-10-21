@@ -14,34 +14,37 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row col-md-12"><%@ include
-				file="../include/header.jspf"%></div>
 		<c:if test="${empty currentSessionUser}">
 			<div class="modal-header">
-				<h1 class="text-center">Connexion</h1>
+				<h1 class="text-center">ResaTools</h1>
 			</div>
 			<div class="modal-body">
+			<div class="row">
+			<div class="col-md-3"></div>
+				<div class="col-md-6">
 				<c:if test="${connectedTried == true}">
 					<div class="alert alert-danger">Votre identifiant est inconnu
 						ou votre mot de passe incorrect.</div>
 				</c:if>
 				<form id="formAuth" action="${pageContext.request.contextPath}/action/login" method="POST" class="form">
 					<div class="form-group">
-						<input type="text" name="login" id="login" class="form-control"
-							placeholder="Login" />
+						<input type="text" name="login" id="login" class="form-control" placeholder="Login" />
 					</div>
 					<div class="form-group">
-						<input type="password" name="pass" id="pass" class="form-control"
-							placeholder="Password" />
+						<input type="password" name="pass" id="pass" class="form-control" placeholder="Password" />
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary btn-lg btn-block" value="Connexion" />
 					</div>
 				</form>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
 			</div>
 		</c:if>
 	</div>
-	<div class="row col-md-12"><%@ include
-			file="../include/footer.jspf"%></div>
+	<div class="row modal-footer">
+		<div class="col-md-12"><%@ include file="../include/footer.jspf"%></div>
+	</div>
 </body>
 </html>
