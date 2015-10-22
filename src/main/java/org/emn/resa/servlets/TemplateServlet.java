@@ -74,9 +74,9 @@ public class TemplateServlet extends HttpServlet {
 		case "user":
 			if (paths.length > 1) {
 				switch (paths[1]) {
-//				case "addUser":
-//					RessourceManager.addType(request.getParameter("typeName"));
-//					break;
+				case "addUser":
+					UserManager.addUser(request);
+					break;
 				case "delUser":
 					if(request.getParameter("delUserButton") != null){
 						UserManager.deleteUser(request.getParameter("delUserButton"));
