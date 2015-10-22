@@ -48,6 +48,63 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
+		<h3>Ajouter un utilisateur</h3>
+		<form class="form-horizontal" action="${pageContext.request.contextPath}/action/user/addUser" method="post" role="form">
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Nom:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="name"
+						placeholder="Nom">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Prénom:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="firstname"
+						placeholder="Prénom">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Email:</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="email"
+						placeholder="Email">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">N° téléphone:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="phone"
+						placeholder="phone">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Login:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="login"
+						placeholder="Login">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="pwd">Password:</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="pwd"
+						placeholder="Password">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label><input type="checkbox" id="admin">Administrateur</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">Valider</button>
+				</div>
+			</div>
+		</form>
 	</div>
+</div>
 </div>

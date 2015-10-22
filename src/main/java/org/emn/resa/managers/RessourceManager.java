@@ -37,15 +37,35 @@ public class RessourceManager extends AbstractObjectManager {
 		return list;
 	}
 
+	/**
+	 * Suppression d'un type de ressource avec respect des règles d'intégrités
+	 * @param id identifiant du type
+	 */
 	public static void deleteType(Integer id) {
 		init();
 		Type t = em.find(Type.class, id);
 		if(t != null){
+			Query q = em.createQuery("SELECT r FROM Ressource r");
+			List<Ressource> ressources = q.getResultList();
+			for (Ressource r : ressources) {
+				Ressource actual = em.find(Ressource.class, r.getId());
+				// suppression de la ressource si elle n'a que le type t d'associé
+				if(r.getType().size() == 1 && r.getType().contains(t)){
+					if(r != null) em.remove(actual);
+				}
+				// Suppression du type à toutes les ressources associées
+				else if(r.getType().contains(t)){
+					actual.getType().remove(t);
+				}
+				
+			}
 			em.remove(t);
 			em.getTransaction().commit();
 		}
-		/*TODO supprimer les associations avec les ressources
-		Et si une ressource n'a que ce type ? supprimer la ressource ? */
+		
+		/*TODO contrôle d'intégrité: ne pas supprimer le type si
+		 * une ressource va être supprimée
+		 * et que cette ressource va être/est réservée*/
 		close();
 	}
 

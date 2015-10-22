@@ -35,7 +35,7 @@ public class User {
 	private String phone;
 	
 	@Column(name="ADMIN")
-	private boolean isAdmin;
+	private Boolean isAdmin;
 	
 	public String getName() {
 		return name;
