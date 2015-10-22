@@ -2,15 +2,15 @@
 <div id="body" class="panel panel-default">
 	<div class="panel-heading">Gestion des Utilisateurs</div>
 	<div class="panel-body">
-		<form action="${pageContext.request.contextPath}/action/user/addUser"
-			method="post" class="form" id="form-addUser">
-			<div class="row">
-				<div class="form-group col-md-3">
-					<input type="submit" class="btn btn-primary"
-						value="Ajouter un utilisateur">
-				</div>
-			</div>
-		</form>
+		<%-- 		<form action="${pageContext.request.contextPath}/action/user/addUser" --%>
+		<!-- 			method="post" class="form" id="form-addUser"> -->
+		<!-- 			<div class="row"> -->
+		<!-- 				<div class="form-group col-md-3"> -->
+		<!-- 					<input type="submit" class="btn btn-primary" -->
+		<!-- 						value="Ajouter un utilisateur"> -->
+		<!-- 				</div> -->
+		<!-- 			</div> -->
+		<!-- 		</form> -->
 
 		<h3>Liste des utilisateurs</h3>
 		<table class="table">
@@ -49,53 +49,56 @@
 			</tbody>
 		</table>
 		<h3>Ajouter un utilisateur</h3>
-		<form class="form-horizontal" action="${pageContext.request.contextPath}/action/user/addUser" method="post" role="form">
+		<form class="form-horizontal"
+			action="${pageContext.request.contextPath}/action/user/addUser"
+			method="post" role="form">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Nom:</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="name"
-						placeholder="Nom">
+					<input type="text" class="form-control" name="name"
+						placeholder="Nom" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Prénom:</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="firstname"
-						placeholder="Prénom">
+					<input type="text" class="form-control" name="firstname"
+						placeholder="Prénom" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Email:</label>
 				<div class="col-sm-10">
-					<input type="email" class="form-control" id="email"
+					<input type="email" class="form-control" name="email"
 						placeholder="Email">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2" for="email">N° téléphone:</label>
+				<label class="control-label col-sm-2" for="email">N°
+					téléphone:</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="phone"
+					<input type="text" class="form-control" name="phone"
 						placeholder="phone">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Login:</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="login"
-						placeholder="Login">
+					<input type="text" class="form-control" name="login"
+						placeholder="Login" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="pwd">Password:</label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control" id="pwd"
-						placeholder="Password">
+					<input required type="password" class="form-control" name="pwd"
+						placeholder="Password" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
-						<label><input type="checkbox" id="admin">Administrateur</label>
+						<label><input type="checkbox" name="admin">Administrateur</label>
 					</div>
 				</div>
 			</div>

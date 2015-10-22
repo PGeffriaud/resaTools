@@ -42,12 +42,15 @@ public class UserManager extends AbstractObjectManager {
 		init();
 		User user = new User();
 		user.setFirstname(request.getParameter("name"));
-		user.setIsAdmin(Boolean.valueOf(request.getParameter("admin")));
+		boolean admin = request.getParameter("admin") != null ;
+		user.setIsAdmin(admin);
 		user.setLogin(request.getParameter("login"));
-		user.setMail(request.getParameter("mail"));
+		user.setPassword(request.getParameter("pwd"));
+		user.setMail(request.getParameter("email"));
 		user.setName(request.getParameter("firstname"));
 		user.setPhone(request.getParameter("phone"));
 		em.persist(user);
+		em.getTransaction().commit();
 		close();
 	}
 }
