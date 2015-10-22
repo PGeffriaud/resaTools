@@ -3,7 +3,54 @@
 <div class="panel-heading">Gestion des Ressources</div>
 <div class="panel-body">
 <div class="panel">
+<div class="row">
+	<h4>Liste des ressources</h4>
+	<form class="form" method="post" id="form-ressource-search" action="${pageContext.request.contextPath}/action/ressources/search">
+	    <div class="row">
+	    <div class="col-md-5">
+	        <input type="text" class="form-control" name="ressSearch" placeholder="Search">
+	    </div>
+	    <div class="col-md-2">
+	        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+	    </div>
+	    </div>
+	</form>
+	<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Description</th>
+					<th>Types</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="current" items="${listRess}">
+					<tr>
+						<td>${current.name}</td>
+						<td>${current.description}</td>
+						<td>
+							<c:forEach items="${current.type}" var="t"><span class="label label-default">${t.name}</span>&nbsp;</c:forEach>
+						</td>
+						<c:if test="${currentSessionUser.isAdmin}">
+						<td>
+							<form
+								action="${pageContext.request.contextPath}/action/ressources/delress"
+								method="post" class="form" id="form-delUser">
+								<button type="submit" name="delRessButton" value="${current.id}"
+									class="btn btn-danger btn-sm">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+							</form>
+						</td>
+						</c:if>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<c:if test="${currentSessionUser.isAdmin}">
 	<div class="row">
+	<hr>
 	<h4>Créer un type</h4>
 	<form action="${pageContext.request.contextPath}/action/ressources/addtype" method="post" class="form" id="form-addtype">
 		<div class="row">
@@ -22,7 +69,7 @@
 				<a title="remove this type" href="${pageContext.request.contextPath}/action/ressources/deltype?id=${i.id}"><span class="glyphicon glyphicon-remove" style="color:black"></span></a>
 			</span>&nbsp;
 		</c:forEach>
-		</div>
+	</div>
 	<div class="row">
 	<br/>
 	<hr>
@@ -48,41 +95,7 @@
 		</div>
 	</form>
 	</div>
-	<div class="row">
-	<br/>
-	<hr>
-	<h4>Liste des ressources</h4>
-	<table class="table">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Description</th>
-					<th>Types</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="current" items="${listRess}">
-					<tr>
-						<td>${current.name}</td>
-						<td>${current.description}</td>
-						<td>
-							<c:forEach items="${current.type}" var="t"><span class="label label-default">${t.name}</span>&nbsp;</c:forEach>
-						</td>
-						<td>
-							<form
-								action="${pageContext.request.contextPath}/action/ressources/delress"
-								method="post" class="form" id="form-delUser">
-								<button type="submit" name="delRessButton" value="${current.id}"
-									class="btn btn-danger btn-sm">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</form>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+	</c:if>
 </div>
 </div>
 </div>

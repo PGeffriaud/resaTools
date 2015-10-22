@@ -66,8 +66,9 @@ public class TemplateServlet extends HttpServlet {
 					break;
 				}
 			}
+			String nameQuery = request.getParameter("ressSearch");
 			request.getSession().setAttribute("listType", RessourceManager.getTypeList());
-			request.getSession().setAttribute("listRess", RessourceManager.getRessourceList());
+			request.getSession().setAttribute("listRess", RessourceManager.getRessourceList(nameQuery));
 			break;
 		case "reservations":
 			break;

@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.emn.resa.entities.Ressource;
 import org.emn.resa.entities.Type;
+import org.h2.util.StringUtils;
 
 public class RessourceManager extends AbstractObjectManager {
 
@@ -93,9 +94,18 @@ public class RessourceManager extends AbstractObjectManager {
 		close();
 	}
 
-	public static List<Ressource> getRessourceList() {
+	public static List<Ressource> getRessourceList(String nameQuery) {
 		init();
-		Query q = em.createQuery("SELECT r FROM Ressource r");
+		String query = "SELECT r FROM Ressource r";
+		Query q;
+		if(! StringUtils.isNullOrEmpty(nameQuery)){
+			query += " WHERE r.name = :name";
+			q = em.createQuery(query);
+			q.setParameter("name", nameQuery);
+		}
+		else{
+			q = em.createQuery(query);
+		}
 		List<Ressource> list = q.getResultList();
 		close();
 		return list;
