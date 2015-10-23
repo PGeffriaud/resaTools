@@ -38,19 +38,35 @@ public class UserManager extends AbstractObjectManager {
 		}
 	}
 	
-	public static void addUser(HttpServletRequest request){
+	public static HttpServletRequest addUser(HttpServletRequest request){
 		init();
-		User user = new User();
-		user.setFirstname(request.getParameter("name"));
-		boolean admin = request.getParameter("admin") != null ;
-		user.setIsAdmin(admin);
-		user.setLogin(request.getParameter("login"));
-		user.setPassword(request.getParameter("pwd"));
-		user.setMail(request.getParameter("email"));
-		user.setName(request.getParameter("firstname"));
-		user.setPhone(request.getParameter("phone"));
-		em.persist(user);
-		em.getTransaction().commit();
+		HttpServletRequest localRequest = request;
+		if(verifyLogin(request.getParameter("login"))){
+			User user = new User();
+			user.setFirstname(request.getParameter("name"));
+			boolean admin = request.getParameter("admin") != null ;
+			user.setIsAdmin(admin);
+			user.setLogin(request.getParameter("login"));
+			user.setPassword(request.getParameter("pwd"));
+			user.setMail(request.getParameter("email"));
+			user.setName(request.getParameter("firstname"));
+			user.setPhone(request.getParameter("phone"));
+			em.persist(user);
+			em.getTransaction().commit();
+		}
+		else{
+			localRequest.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+		}
 		close();
+		return localRequest;
+	}
+	
+	private static boolean verifyLogin(String login){
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.login = :login");
+		q.setParameter("login", login);
+		List utilisateurs = q.getResultList();
+		if (utilisateurs.isEmpty()) {
+			return true;
+		} return false;
 	}
 }

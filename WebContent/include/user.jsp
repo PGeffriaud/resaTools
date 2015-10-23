@@ -12,6 +12,10 @@
 		<!-- 			</div> -->
 		<!-- 		</form> -->
 
+		<c:if test="${not empty errorMessage}">
+			<div class="alert alert-danger">${errorMessage}</div>
+		</c:if>
+
 		<h3>Liste des utilisateurs</h3>
 		<table class="table">
 			<thead>
@@ -78,7 +82,7 @@
 					téléphone:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="phone"
-						placeholder="phone">
+						placeholder="Phone">
 				</div>
 			</div>
 			<div class="form-group">
@@ -109,5 +113,4 @@
 			</div>
 		</form>
 	</div>
-</div>
 </div>
