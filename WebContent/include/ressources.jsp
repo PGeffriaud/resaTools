@@ -4,14 +4,14 @@
 <div class="panel-body">
 <div class="panel">
 <div class="row">
-	<h4>Liste des ressources</h4>
+	<h4>Recherche de ressources</h4>
 	<form class="form" method="post" id="form-ressource-search" action="${pageContext.request.contextPath}/action/ressources/search">
 	    <div class="row">
 	    <div class="col-md-5">
-	        <input type="text" class="form-control" name="ressSearch" placeholder="Search">
+	        <input type="text" class="form-control" name="ressSearch" placeholder="Name..">
 	    </div>
 	    <div class="col-md-2">
-	        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+	        <button type="submit" class="btn btn-primary">Search&nbsp;<span class="glyphicon glyphicon-search"></span></button>
 	    </div>
 	    </div>
 	</form>
