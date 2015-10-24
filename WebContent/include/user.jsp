@@ -2,20 +2,13 @@
 <div id="body" class="panel panel-default">
 	<div class="panel-heading">Gestion des Utilisateurs</div>
 	<div class="panel-body">
-		<%-- 		<form action="${pageContext.request.contextPath}/action/user/addUser" --%>
-		<!-- 			method="post" class="form" id="form-addUser"> -->
-		<!-- 			<div class="row"> -->
-		<!-- 				<div class="form-group col-md-3"> -->
-		<!-- 					<input type="submit" class="btn btn-primary" -->
-		<!-- 						value="Ajouter un utilisateur"> -->
-		<!-- 				</div> -->
-		<!-- 			</div> -->
-		<!-- 		</form> -->
 
+		<!--  Affichage des messages d'erreur  -->
 		<c:if test="${not empty errorMessage}">
 			<div class="alert alert-danger">${errorMessage}</div>
 		</c:if>
 
+		<!--  On affiche la liste des utilisateurs qui sont enregistrés en base  -->
 		<h3>Liste des utilisateurs</h3>
 		<table class="table">
 			<thead>
@@ -24,7 +17,7 @@
 					<th>Prénom</th>
 					<th>Nom</th>
 					<th>N° Téléphone</th>
-					<th>EMail</th>
+					<th>Mail</th>
 					<th>Admin</th>
 					<th>Actions</th>
 				</tr>
@@ -32,49 +25,73 @@
 			<tbody>
 				<c:forEach var="current" items="${listUser}">
 					<tr>
-						<td>${current.login}</td>
-						<td>${current.firstname}</td>
-						<td>${current.name}</td>
-						<td>${current.phone}</td>
-						<td>${current.mail}</td>
-						<td>${current.isAdmin}</td>
+						<td>${current.value.login}</td>
+						<td>${current.value.firstname}</td>
+						<td>${current.value.name}</td>
+						<td>${current.value.phone}</td>
+						<td>${current.value.mail}</td>
+						<td>${current.value.isAdmin}</td>
 						<td>
-							<form
-								action="${pageContext.request.contextPath}/action/user/delUser"
-								method="post" class="form" id="form-delUser">
-								<button type="submit" name="delUserButton" value="${current.id}"
-									class="btn btn-danger btn-sm">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</form>
+							<div class="row">
+								<div class="col-xs-3">
+									<form
+										action=""
+										method="post" class="form" id="form-updateUser">
+										<button type="submit" name="updateUserButton"
+											value="${current.value.id}" class="btn btn-default btn-sm">
+											<span class="glyphicon glyphicon-edit"></span>
+										</button>
+									</form>
+								</div>
+								<div class="col-xs-3">
+									<form
+										action="${pageContext.request.contextPath}/action/user/delUser"
+										method="post" class="form" id="form-delUser">
+										<button type="submit" name="delUserButton"
+											value="${current.value.id}" class="btn btn-danger btn-sm">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</form>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<h3>Ajouter un utilisateur</h3>
+
+		<!--  Si la variable userToUpdate n'est pas vide alors on affiche le formulaire de modification -->
+		<c:if test="${not empty param.updateUserButton}">
+			<c:set var="urlRedirection" value="${pageContext.request.contextPath}/action/user/updateUser"/>
+			<h3>Modifier un utilisateur</h3>
+		</c:if>
+		<c:if test="${empty param.updateUserButton}">
+			<c:set var="urlRedirection" value="${pageContext.request.contextPath}/action/user/addUser"/>
+			<h3>Ajouter un utilisateur</h3>
+		</c:if>
+		
 		<form class="form-horizontal"
-			action="${pageContext.request.contextPath}/action/user/addUser"
+			action="${urlRedirection}"
 			method="post" role="form">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Nom:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name"
-						placeholder="Nom" required>
+						placeholder="Nom" value="${listUser[param.updateUserButton].name}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Prénom:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="firstname"
-						placeholder="Prénom" required>
+						placeholder="Prénom" value="${listUser[param.updateUserButton].firstname}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Email:</label>
 				<div class="col-sm-10">
 					<input type="email" class="form-control" name="email"
-						placeholder="Email">
+						placeholder="Email" value="${listUser[param.updateUserButton].mail}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -82,30 +99,34 @@
 					téléphone:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="phone"
-						placeholder="Phone">
+						placeholder="Phone" value="${listUser[param.updateUserButton].phone}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="email">Login:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="login"
-						placeholder="Login" required>
+						placeholder="Login" value="${listUser[param.updateUserButton].login}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="pwd">Password:</label>
 				<div class="col-sm-10">
 					<input required type="password" class="form-control" name="pwd"
-						placeholder="Password" required>
+						placeholder="Password" value="${listUser[param.updateUserButton].password}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
-						<label><input type="checkbox" name="admin">Administrateur</label>
+						<label><input type="checkbox" name="admin"
+							value="${listUser[param.updateUserButton].isAdmin}">Administrateur</label>
 					</div>
 				</div>
 			</div>
+			<c:if test="${not empty listUser[param.updateUserButton].id}">  
+                    <input type="hidden" name="id" value="${listUser[param.updateUserButton].id}" />  
+            </c:if>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-primary">Valider</button>

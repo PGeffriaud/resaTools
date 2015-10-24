@@ -83,6 +83,9 @@ public class TemplateServlet extends HttpServlet {
 						UserManager.deleteUser(request.getParameter("delUserButton"));
 					}
 					break;
+				case "updateUser":
+					request = UserManager.modifyUser(request);
+					break;	
 				default:
 					break;
 				}
