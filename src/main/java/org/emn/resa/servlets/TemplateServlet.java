@@ -100,6 +100,7 @@ public class TemplateServlet extends HttpServlet {
 					default: break;
 				}
 			}
+			request.getSession().setAttribute("listResa", ResaManager.getResaList());
 			break;
 		case "user":
 			if (paths.length > 1) {
