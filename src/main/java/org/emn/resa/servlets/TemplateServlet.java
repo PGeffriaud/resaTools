@@ -1,6 +1,10 @@
 package org.emn.resa.servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.emn.resa.managers.ConnexionManager;
+import org.emn.resa.managers.ResaManager;
 import org.emn.resa.managers.RessourceManager;
 import org.emn.resa.managers.UserManager;
+import org.h2.util.DateTimeUtils;
+
+import antlr.StringUtils;
 
 /**
  * Servlet implementation class TemplateServlet
@@ -71,6 +79,27 @@ public class TemplateServlet extends HttpServlet {
 			request.getSession().setAttribute("listRess", RessourceManager.getRessourceList(nameSearch));
 			break;
 		case "reservations":
+			if (paths.length > 1) {
+				switch (paths[1]) {
+					case "goresa":
+						request.setAttribute("nameRess",request.getParameter("goResaName"));
+						request.setAttribute("idRess", request.getParameter("goResaId"));
+						break;
+					case "addresa":
+						int idUser = Integer.parseInt(request.getParameter("idUser"));
+						int idRess = Integer.parseInt(request.getParameter("idRess"));
+					try {
+						Date from = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaFrom"));
+						Date to = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaTo"));
+						ResaManager.addReservation(idUser, idRess, from, to);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						break;
+					default: break;
+				}
+			}
 			break;
 		case "user":
 			if (paths.length > 1) {

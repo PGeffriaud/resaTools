@@ -4,29 +4,33 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
 <title>resaTools</title>
 </head>
 <c:if test="${not empty currentSessionUser}">
 <body>
 <div class="container">
-	<div class="row col-md-12"><%@ include file="include/header.jspf" %></div>
+	<div class="row col-md-12"><%@ include file="jspf/index/header.jspf" %></div>
 	<div class="row">
 		<div class="col-md-3">
-			<%@ include file="include/menu.jsp" %>
+			<%@ include file="jspf/index/menu.jspf" %>
 		</div>
 		<div class="col-md-9">
-			<%@ include file="include/infos.jspf" %>
+			<%@ include file="jspf/index/infos.jspf" %>
 			<c:if test="${not empty page}">
-				<jsp:include page="include/${page}.jsp" />
+				<jsp:include page="jsp/${page}.jsp" />
 			</c:if>
 			<c:if test="${empty page}">
-				<jsp:include page="include/accueil.jsp" />
+				<jsp:include page="jsp/accueil.jsp" />
 			</c:if>
 		</div>
 	</div>
-	<div class="row col-md-12"><%@ include file="include/footer.jspf" %></div>
+	<div class="row col-md-12"><%@ include file="jspf/index/footer.jspf" %></div>
 </div>
 </body>
 </c:if>

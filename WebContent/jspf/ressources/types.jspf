@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<h4>Créer un type</h4>
+<form action="${pageContext.request.contextPath}/action/ressources/addtype" method="post" class="form" id="form-addtype">
+	<div class="row">
+	<div class="col-md-5">
+		<input type="text" name="typeName" id="typeName" class="form-control" placeholder="Name"/>
+	</div>
+	<div class="col-md-7">
+		<input type="submit" class="btn btn-primary" value="Create">
+	</div>
+	</div>
+</form>
+<div class="row col-md-12">
+	<c:forEach items="${listType}" var="i">
+		<span class="label label-default"><c:out value='${i.name}'/>
+			<a title="remove this type" href="${pageContext.request.contextPath}/action/ressources/deltype?id=${i.id}"><span class="glyphicon glyphicon-remove" style="color:black"></span></a>
+		</span>&nbsp;
+	</c:forEach>
+</div>

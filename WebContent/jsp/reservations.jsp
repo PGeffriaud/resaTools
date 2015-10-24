@@ -1,0 +1,39 @@
+<div id="body" class="panel panel-default">
+	<div class="panel-heading">Réservations</div>
+	<div class="panel-body">
+	<h3>Réserver une ressource</h3>
+	<form action="${pageContext.request.contextPath}/action/reservations/addresa" method="post" class="form-horizontal">
+		<div class="form-group">
+		<input type="hidden" value="${idRess}" name="idRess">
+			<label class="control-label col-sm-1" for="nameRess">Nom</label>
+			<div class="col-sm-5">
+				<input type="text" id="nameRess" value="${nameRess}" class="form-control" name="nameRess" placeholder="Nom" required disabled />
+			</div>
+		</div>
+		<div class="form-group">
+		<input type="hidden" name="idUser" value="${currentSessionUser.id}"/>
+			<label class="control-label col-sm-1" for="nameUser">Par</label>
+			<div class="col-sm-5">
+				<input type="text" id="nameUser" value="${currentSessionUser.login}" class="form-control" name="nameUser" placeholder="Nom" required disabled />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-sm-1">
+				<label class="control-label col-sm1" for="dateResaFrom">Du</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control datepicker" id="dateResaFrom" name="dateResaFrom" placeholder="jj/mm/aaaa" required/>
+			</div>
+			<div class="col-sm-1">
+				<label class="control-label col-sm1" for="dateResaFrom">Au</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control datepicker" id="dateResaTo" name="dateResaTo" placeholder="jj/mm/aaaa" required/>
+			</div>			
+		</div>
+		<div class="form-group row col-sm-12">
+			<input type="submit" value="Réserver" class="btn btn-primary" />
+		</div>
+	</form>
+	</div>
+</div>

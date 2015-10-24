@@ -44,7 +44,7 @@
 		</c:if>
 	</div>
 	<div class="row modal-footer">
-		<div class="col-md-12"><%@ include file="../include/footer.jspf"%></div>
+		<div class="col-md-12"><%@ include file="../jspf/index/footer.jspf"%></div>
 	</div>
 </body>
 </html>
