@@ -50,7 +50,7 @@ public class Reservation {
 	public Ressource getRessource() {
 		return ressource;
 	}
-	public void setReservation(Ressource ressource) {
+	public void setRessource(Ressource ressource) {
 		this.ressource = ressource;
 	}
 	public Date getDateBegin() {

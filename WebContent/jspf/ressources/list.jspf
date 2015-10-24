@@ -14,12 +14,7 @@
 	</form>
 	<table class="table">
 			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Description</th>
-					<th>Types</th>
-					<th>Actions</th>
-				</tr>
+				<tr><th>Nom</th><th>Description</th><th>Types</th><th>Actions</th></tr>
 			</thead>
 			<tbody>
 				<c:forEach var="current" items="${listRess}">
@@ -29,18 +24,21 @@
 						<td>
 							<c:forEach items="${current.type}" var="t"><span class="label label-default">${t.name}</span>&nbsp;</c:forEach>
 						</td>
-						<c:if test="${currentSessionUser.isAdmin}">
 						<td>
-							<form
-								action="${pageContext.request.contextPath}/action/ressources/delress"
-								method="post" class="form" id="form-delUser">
+							<form style="display: inline;" action="${pageContext.request.contextPath}/action/reservations/goresa" method="post" class="form" id="form-goResa">
+								<input type="hidden" name="goResaName" value="${current.name}"/>
+								<button type="submit" name="goResaId" value="${current.id}" class="btn btn-primary btn-sm">Réserver</button>
+							</form>
+						<c:if test="${currentSessionUser.isAdmin}">
+							<form style="display: inline;"
+								action="${pageContext.request.contextPath}/action/ressources/delress" method="post" class="form" id="form-delress">
 								<button type="submit" name="delRessButton" value="${current.id}"
 									class="btn btn-danger btn-sm">
 									<span class="glyphicon glyphicon-trash"></span>
 								</button>
 							</form>
-						</td>
 						</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
