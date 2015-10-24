@@ -76,7 +76,7 @@ public class TemplateServlet extends HttpServlet {
 			if (paths.length > 1) {
 				switch (paths[1]) {
 				case "addUser":
-					UserManager.addUser(request);
+					request = UserManager.addUser(request);
 					break;
 				case "delUser":
 					if(request.getParameter("delUserButton") != null){
@@ -128,7 +128,7 @@ public class TemplateServlet extends HttpServlet {
 			rd.forward(request, response);
 		} else {
 			if (login != null) {
-				request.getSession().setAttribute("connectedTried", true);
+				request.setAttribute("connexionTried", true);
 			}
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/login.jsp");
 			rd.forward(request, response);

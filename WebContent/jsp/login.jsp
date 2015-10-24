@@ -22,7 +22,7 @@
 			<div class="row">
 			<div class="col-md-3"></div>
 				<div class="col-md-6">
-				<c:if test="${connectedTried == true}">
+				<c:if test="${not empty connexionTried}">
 					<div class="alert alert-danger">Votre identifiant est inconnu
 						ou votre mot de passe incorrect.</div>
 				</c:if>
