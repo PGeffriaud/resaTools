@@ -99,9 +99,9 @@ public class RessourceManager extends AbstractObjectManager {
 		String query = "SELECT r FROM Ressource r";
 		Query q;
 		if(! StringUtils.isNullOrEmpty(nameQuery)){
-			query += " WHERE r.name = :name";
+			query += " WHERE r.name LIKE :name";
 			q = em.createQuery(query);
-			q.setParameter("name", nameQuery);
+			q.setParameter("name", "%"+nameQuery+"%");
 		}
 		else{
 			q = em.createQuery(query);
