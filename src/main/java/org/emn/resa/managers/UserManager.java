@@ -63,6 +63,7 @@ public class UserManager extends AbstractObjectManager {
 				user.setPhone(request.getParameter("phone"));
 				em.persist(user);
 				em.getTransaction().commit();
+				localRequest.setAttribute("validationMessage", " Utilisateur enregistré");
 			}
 		}
 		else{
@@ -79,27 +80,28 @@ public class UserManager extends AbstractObjectManager {
 	public static HttpServletRequest modifyUser(HttpServletRequest request){
 		init();
 		HttpServletRequest localRequest = request;
-		User user = em.find(User.class, Integer.parseInt(request.getParameter("id")));
-		boolean verification = true;
-		if(user != null){
-			if(!user.getLogin().equals(request.getParameter("login"))){
-				if(!verifyLogin(request.getParameter("login"))){
-					verification = false;
+		if(request.getParameter("id") != null){
+			User user = em.find(User.class, Integer.parseInt(request.getParameter("id")));
+			boolean verification = true;
+			if(user != null){
+				if(!user.getLogin().equals(request.getParameter("login"))){
+					if(!verifyLogin(request.getParameter("login"))){
+						verification = false;
+						localRequest.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+					}
 				}
-				else{
-					localRequest.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+				if(verification){
+					user.setFirstname(request.getParameter("name"));
+					boolean admin = request.getParameter("admin") != null ;
+					user.setIsAdmin(admin);
+					user.setLogin(request.getParameter("login"));
+					user.setPassword(request.getParameter("pwd"));
+					user.setMail(request.getParameter("email"));
+					user.setName(request.getParameter("firstname"));
+					user.setPhone(request.getParameter("phone"));
+					em.getTransaction().commit();
+					localRequest.setAttribute("validationMessage", " Modification enregistrée");
 				}
-			}else if(verification){
-				user.setFirstname(request.getParameter("name"));
-				boolean admin = request.getParameter("admin") != null ;
-				user.setIsAdmin(admin);
-				user.setLogin(request.getParameter("login"));
-				user.setPassword(request.getParameter("pwd"));
-				user.setMail(request.getParameter("email"));
-				user.setName(request.getParameter("firstname"));
-				user.setPhone(request.getParameter("phone"));
-				System.out.println("commit");
-				em.getTransaction().commit();
 			}
 		}
 		close();
