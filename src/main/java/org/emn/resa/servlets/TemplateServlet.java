@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,11 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.emn.resa.entities.User;
 import org.emn.resa.managers.ConnexionManager;
 import org.emn.resa.managers.ResaManager;
 import org.emn.resa.managers.RessourceManager;
 import org.emn.resa.managers.UserManager;
+import org.emn.resa.utils.ReservationView;
 import org.h2.util.DateTimeUtils;
+import org.hibernate.transform.ToListResultTransformer;
 
 import antlr.StringUtils;
 
@@ -100,7 +106,9 @@ public class TemplateServlet extends HttpServlet {
 					default: break;
 				}
 			}
-			request.getSession().setAttribute("listResa", ResaManager.getResaList());
+			List<ReservationView> resaList = ResaManager.getResaList();
+			String userLogin = ((User)request.getSession().getAttribute("currentSessionUser")).getLogin();
+			request.getSession().setAttribute("listResa", resaList);
 			break;
 		case "user":
 			if (paths.length > 1) {
