@@ -15,8 +15,9 @@ import org.emn.resa.utils.ReservationView;
 
 public class ResaManager extends AbstractObjectManager {
 
-	public static void addReservation(int idUser, int idRess, Date from, Date to) {
+	public static boolean addReservation(int idUser, int idRess, Date from, Date to) {
 		init();
+		boolean addOk = false;
 		User u = em.find(User.class, idUser);
 		Ressource r = em.find(Ressource.class, idRess);
 		if(u != null && r != null){
@@ -29,20 +30,35 @@ public class ResaManager extends AbstractObjectManager {
 			if(checkResa(resa)){
 				em.persist(resa);
 				em.getTransaction().commit();
+				addOk = true;
 			}
 			
 		}
 		close();
+		return addOk;
 	}
 
 	/**
 	 * Vérifie que la réservation est possible
-	 * @param resa
-	 * @return
+	 * Pré-requis: EntityManager is opened
+	 * Post: EntityManager is not closed
+	 * @param resa Reservation a ajouter si les règles sont ok
+	 * @return True si la réservation peut etre ajoutée
 	 */
-	private static boolean checkResa(Reservation resa) {
-		// TODO checkResa
-		return true;
+	private static boolean checkResa(Reservation myResa) {
+		// Les dates ne sont pas nulles
+		Date myResaBegin = myResa.getDateBegin();
+		Date myResaEnd = myResa.getDateEnd();
+		if(myResaBegin == null || myResaEnd == null) return false;
+		
+		// DateDebut < DateFin
+		if(myResaBegin.compareTo(myResaEnd) >= 0) return false;
+		
+		// Selection des reservations dont l'intersection de temps est non null
+		Query q = em.createQuery("Select r from Reservation r where r.dateBegin <= :dateEnd AND r.dateEnd >= :dateBegin", Reservation.class);
+		q.setParameter("dateEnd", myResaEnd);
+		q.setParameter("dateBegin", myResaBegin);
+		return q.getResultList().size() == 0;
 	}
 
 	public static List<ReservationView> getResaList() {

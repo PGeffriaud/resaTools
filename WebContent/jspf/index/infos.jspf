@@ -1,6 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:if test="${not empty query and not query }">
-	<div class="alert alert-warning">
-		<span class="glyphicon glyphicon-remove"></span> Le type existe déjà
+<c:if test="${not empty addOk and not addOk }">
+	<div class="alert alert-danger">
+		<span class="glyphicon glyphicon-remove"></span>
+		La ressource n'a pas pu être réservée: dates invalides
+	</div>
+</c:if>
+<c:if test="${not empty addOk and addOk }">
+	<div class="alert alert-success">
+		<span class="glyphicon glyphicon-ok"></span>
+		La ressource a été correctement réservée
 	</div>
 </c:if>

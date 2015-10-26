@@ -75,6 +75,11 @@ public class TemplateServlet extends HttpServlet {
 						RessourceManager.deleteRessource(Integer.parseInt(idRess));
 					}
 				case "updateress":
+					String[] modifiedTypes = request.getParameterValues("selectType");
+					String modifiedName = request.getParameter("nameRess");
+					String modifiedDesc = request.getParameter("textRess");
+					String id = request.getParameter("id");
+					RessourceManager.modifyRessource(id, modifiedTypes, modifiedName, modifiedDesc);
 					break;
 				default:
 					break;
@@ -97,7 +102,8 @@ public class TemplateServlet extends HttpServlet {
 					try {
 						Date from = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaFrom"));
 						Date to = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaTo"));
-						ResaManager.addReservation(idUser, idRess, from, to);
+						boolean addOk = ResaManager.addReservation(idUser, idRess, from, to);
+						request.setAttribute("addOk", addOk);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
