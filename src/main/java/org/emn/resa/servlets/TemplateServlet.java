@@ -56,24 +56,34 @@ public class TemplateServlet extends HttpServlet {
 			if (paths.length > 1) {
 				switch (paths[1]) {
 				case "addtype":
-					RessourceManager.addType(request.getParameter("typeName"));
+					boolean ok = RessourceManager.addType(request.getParameter("typeName"));
+					if(ok) request.setAttribute("validationMessage", "Le nouveau type de ressource a bien été enregistré");
+					else request.setAttribute("errorMessage", "Le type n'a pas un nom valide: vide ou existe déjà");
 					break;
 				case "deltype":
-					RessourceManager.deleteType(Integer.parseInt(request.getParameter("id")));
+					boolean delOk = RessourceManager.deleteType(Integer.parseInt(request.getParameter("id")));
+					if(delOk) request.setAttribute("validationMessage", "Suppression du type effectuée");
+					else request.setAttribute("errorMessage", "Erreur d'intégrité: la suppression du type est impossible");
 					break;
 				case "updatetype":
-					RessourceManager.modifyType(request.getParameter("typeName"), request.getParameter("id"));
+					boolean updOk = RessourceManager.modifyType(request.getParameter("typeName"), request.getParameter("id"));
+					if(updOk) request.setAttribute("validationMessage", "Modification enregistrée");
+					else request.setAttribute("errorMessage", "Erreur lors de la mise à jour du type");
 					break;
 				case "address":
 					String[] types = request.getParameterValues("selectType");
 					String name = request.getParameter("nameRess");
 					String desc = request.getParameter("textRess");
 					RessourceManager.addRessource(name, desc, types);
+					request.setAttribute("validationMessage", "Ressource enregistrée");
 					break;
 				case "delress":
 					String idRess = request.getParameter("delRessButton");
 					if(idRess != null){
-						RessourceManager.deleteRessource(Integer.parseInt(idRess));
+						boolean delRessOk = RessourceManager.deleteRessource(Integer.parseInt(idRess));
+						if(delRessOk) request.setAttribute("validationMessage", "Suppression de la ressource effectuée avec succès");
+						else request.setAttribute("errorMessage", "La ressource est en cours de réservation: suppression impossible");
+						
 					}
 				case "updateress":
 					String[] modifiedTypes = request.getParameterValues("selectType");
@@ -81,6 +91,7 @@ public class TemplateServlet extends HttpServlet {
 					String modifiedDesc = request.getParameter("textRess");
 					String id = request.getParameter("id");
 					RessourceManager.modifyRessource(id, modifiedTypes, modifiedName, modifiedDesc);
+					request.setAttribute("validationMessage", "Mise à jour de la ressource effectuée avec succès");
 					break;
 				default:
 					break;

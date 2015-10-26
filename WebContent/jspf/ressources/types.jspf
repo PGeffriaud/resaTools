@@ -4,16 +4,6 @@
 <c:choose>
 	<c:when test="${currentSessionUser.isAdmin == true}">
 
-		<!--  Affichage des messages d'erreur  -->
-		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger">${errorMessage}</div>
-		</c:if>
-
-		<!--  Affichage des messages de validation  -->
-		<c:if test="${not empty validationMessage}">
-			<div class="alert alert-success">${validationMessage}</div>
-		</c:if>
-
 		<!--  Si la variable userToUpdate n'est pas vide alors on affiche le formulaire de modification -->
 		<c:if test="${not empty param.updateTypeButton}">
 			<c:set var="urlRedirection"

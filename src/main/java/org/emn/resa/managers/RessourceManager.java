@@ -17,7 +17,8 @@ public class RessourceManager extends AbstractObjectManager {
 	 * Création d'un type qui n'existe pas encore
 	 * @param name le nom du type
 	 */
-	public static void addType(String name){
+	public static boolean addType(String name){
+		boolean addOk = false;
 		if(!name.equals("")){
 			init();
 			Query q = em.createQuery("SELECT t FROM Type t WHERE t.name = :name");
@@ -29,23 +30,28 @@ public class RessourceManager extends AbstractObjectManager {
 				t.setName(name);
 				em.persist(t);
 				em.getTransaction().commit();
+				addOk = true;
 			}
 			close();
 		}
+		return addOk;
 	}
 	
 	/**
 	 * Modification d'un type
 	 * @param name le nom du type
 	 */
-	public static void modifyType(String name, String id){
+	public static boolean modifyType(String name, String id){
+		boolean modify = false;
 		if(id != null){
 			init();
 			Type type = em.find(Type.class, Integer.parseInt(id));
 			type.setName(name);
-			em.getTransaction().commit();		
+			em.getTransaction().commit();
+			modify = true;
 			close();
 		}
+		return modify;
 	}
 
 	public static HashMap<String, Type> getTypeList() {
@@ -64,8 +70,9 @@ public class RessourceManager extends AbstractObjectManager {
 	 * Suppression d'un type de ressource avec respect des règles d'intégrités
 	 * @param id identifiant du type
 	 */
-	public static void deleteType(Integer id) {
+	public static boolean deleteType(Integer id) {
 		init();
+		boolean updateOk = false;
 		Type t = em.find(Type.class, id);
 		if(t != null){
 			Query q = em.createQuery("SELECT r FROM Ressource r");
@@ -84,12 +91,14 @@ public class RessourceManager extends AbstractObjectManager {
 			}
 			em.remove(t);
 			em.getTransaction().commit();
+			updateOk = true;
 		}
 		
 		/*TODO contrôle d'intégrité: ne pas supprimer le type si
 		 * une ressource va être supprimée
 		 * et que cette ressource va être/est réservée*/
 		close();
+		return updateOk;
 	}
 
 	/**
@@ -163,13 +172,16 @@ public class RessourceManager extends AbstractObjectManager {
 		return listRessources;
 	}
 
-	public static void deleteRessource(int id) {
+	public static boolean deleteRessource(int id) {
 		init();
+		boolean delOk = false;
 		Ressource r = em.find(Ressource.class, id);
 		if(r != null){
 			em.remove(r);
 			em.getTransaction().commit();
+			delOk = true;
 		}
 		close();
+		return delOk;
 	}
 }
