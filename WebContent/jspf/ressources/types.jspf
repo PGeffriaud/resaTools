@@ -14,8 +14,41 @@
 			<div class="alert alert-success">${validationMessage}</div>
 		</c:if>
 
+		<!--  Si la variable userToUpdate n'est pas vide alors on affiche le formulaire de modification -->
+		<c:if test="${not empty param.updateTypeButton}">
+			<c:set var="urlRedirection"
+				value="${pageContext.request.contextPath}/action/ressources/updatetype" />
+			<h4>Modifier un type</h4>
+		</c:if>
+		<c:if test="${empty param.updateTypeButton}">
+			<c:set var="urlRedirection"
+				value="${pageContext.request.contextPath}/action/ressources/addtype" />
+			<h4>Ajouter un type</h4>
+		</c:if>
+
+		<form action="${urlRedirection}" method="post" class="form"
+			id="form-addtype">
+			<div class="row">
+				<div class="col-md-5">
+					<input type="text" name="typeName" id="typeName"
+						class="form-control" placeholder="Name"
+						value="${listType[param.updateTypeButton].name}" />
+					<c:if test="${not empty listType[param.updateTypeButton].id}">
+						<input type="hidden" name="id"
+							value="${listType[param.updateTypeButton].id}" />
+					</c:if>
+				</div>
+				<div class="col-md-7">
+					<button type="reset" class="btn btn-primary"
+						onclick="location.href=''">Annuler</button>
+					<input type="submit" class="btn btn-primary" value="Valider">
+				</div>
+			</div>
+		</form>
+		<br>
+
 		<!--  On affiche la liste des utilisateurs qui sont enregistrés en base  -->
-		<h3>Liste des utilisateurs</h3>
+		<h4>Liste des types</h4>
 		<table class="table">
 			<thead>
 				<tr>
@@ -48,38 +81,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-
-		<!--  Si la variable userToUpdate n'est pas vide alors on affiche le formulaire de modification -->
-		<c:if test="${not empty param.updateTypeButton}">
-			<c:set var="urlRedirection"
-				value="${pageContext.request.contextPath}/action/ressources/updatetype" />
-			<h3>Modifier un type</h3>
-		</c:if>
-		<c:if test="${empty param.updateTypeButton}">
-			<c:set var="urlRedirection"
-				value="${pageContext.request.contextPath}/action/ressources/addtype" />
-			<h3>Ajouter un type</h3>
-		</c:if>
-
-		<form
-			action="${urlRedirection}"
-			method="post" class="form" id="form-addtype">
-			<div class="row">
-				<div class="col-md-5">
-					<input type="text" name="typeName" id="typeName"
-						class="form-control" placeholder="Name"
-						value="${listType[param.updateTypeButton].name}" />
-					<c:if test="${not empty listType[param.updateTypeButton].id}">
-						<input type="hidden" name="id"
-							value="${listType[param.updateTypeButton].id}" />
-					</c:if>
-				</div>
-				<div class="col-md-7">
-					<button type="reset" class="btn btn-primary" onclick="location.href=''" >Annuler</button>
-					<input type="submit" class="btn btn-primary" value="Valider">
-				</div>
-			</div>
-		</form>
 	</c:when>
 	<c:otherwise>
 		<div class="alert alert-danger">Cette page est réservée aux
