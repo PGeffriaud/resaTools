@@ -2,44 +2,93 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h4>Recherche de ressources</h4>
-	<form class="form" method="post" id="form-ressource-search" action="${pageContext.request.contextPath}/action/ressources/search">
-	    <div class="row">
-	    <div class="col-md-5">
-	        <input type="text" class="form-control" name="ressSearch" placeholder="Name..">
-	    </div>
-	    <div class="col-md-2">
-	        <button type="submit" class="btn btn-primary">Search&nbsp;<span class="glyphicon glyphicon-search"></span></button>
-	    </div>
-	    </div>
-	</form>
-	<table class="table">
-			<thead>
-				<tr><th>Nom</th><th>Description</th><th>Types</th><th>Actions</th></tr>
-			</thead>
-			<tbody>
-				<c:forEach var="current" items="${listRess}">
-					<tr>
-						<td>${current.name}</td>
-						<td>${current.description}</td>
-						<td>
-							<c:forEach items="${current.type}" var="t"><span class="label label-default">${t.name}</span>&nbsp;</c:forEach>
-						</td>
-						<td>
-							<form style="display: inline;" action="${pageContext.request.contextPath}/action/reservations/goresa" method="post" class="form" id="form-goResa">
-								<input type="hidden" name="goResaName" value="${current.name}"/>
-								<button type="submit" name="goResaId" value="${current.id}" class="btn btn-primary btn-sm">Réserver</button>
-							</form>
-						<c:if test="${currentSessionUser.isAdmin}">
-							<form style="display: inline;"
-								action="${pageContext.request.contextPath}/action/ressources/delress" method="post" class="form" id="form-delress">
-								<button type="submit" name="delRessButton" value="${current.id}"
-									class="btn btn-danger btn-sm">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</form>
-						</c:if>
-						</td>
-					</tr>
+<form class="form" method="post" id="form-ressource-search"
+	action="${pageContext.request.contextPath}/action/ressources/search">
+	<div class="row">
+		<div class="col-md-5">
+			<input type="text" class="form-control" name="ressSearch"
+				placeholder="Name..">
+		</div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-primary">
+				Search&nbsp;<span class="glyphicon glyphicon-search"></span>
+			</button>
+		</div>
+	</div>
+</form>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Description</th>
+			<th>Types</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="current" items="${listRess}">
+			<tr>
+				<td>${current.value.name}</td>
+				<td>${current.value.description}</td>
+				<td><c:forEach items="${current.value.type}" var="t">
+						<span class="label label-default">${t.name}</span>&nbsp;</c:forEach></td>
+				<td>
+					<form style="display: inline;"
+						action="${pageContext.request.contextPath}/action/reservations/goresa"
+						method="post" class="form" id="form-goResa">
+						<input type="hidden" name="goResaName"
+							value="${current.value.name}" />
+						<button type="submit" name="goResaId" value="${current.value.id}"
+							class="btn btn-primary btn-sm">Réserver</button>
+					</form>
+					<form style="display: inline;" action="" method="post" class="form"
+						id="form-updateRessource">
+						<button type="submit" name="updateRessourceButton"
+							value="${current.value.id}" class="btn btn-default btn-sm">
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+					</form> <c:if test="${currentSessionUser.isAdmin}">
+						<form style="display: inline;"
+							action="${pageContext.request.contextPath}/action/ressources/delress"
+							method="post" class="form" id="form-delress">
+							<button type="submit" name="delRessButton"
+								value="${current.value.id}" class="btn btn-danger btn-sm">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</form>
+					</c:if>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+
+<c:if test="${not empty param.updateRessourceButton}">
+	<c:set var="urlRedirection"
+		value="${pageContext.request.contextPath}/action/ressources/updateress" />
+	<h4>Modifier un Ressource</h4>
+	<form action="${urlRedirection}" method="post">
+		<div class="row">
+			<div class="col-md-6">
+				<input type="text" name="nameRess" placeholder="Name" class="form-control" value="${listRess[param.updateRessourceButton].name}" required/>
+				<textarea name="textRess" placeholder="Description" class="form-control" maxlength="255" >${listRess[param.updateRessourceButton].description}</textarea>
+			</div>
+			<div class="col-md-5">
+				<select required multiple class="form-control" name="selectType">
+				<option disabled>Choose associated types</option>
+				<c:forEach items="${listType}" var="i">
+					<option value="${i.id}">${i.name}</option>
 				</c:forEach>
-			</tbody>
-		</table>
+				</select>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<c:if test="${not empty listRess[param.updateRessourceButton].id}">
+			<input type="hidden" name="id"
+				value="${listRess[param.updateRessourceButton].id}" />
+		</c:if>
+		<div class="row col-md-12">
+			<input type="submit" value="Modifier" class="btn btn-primary"/>
+		</div>
+	</form>
+</c:if>

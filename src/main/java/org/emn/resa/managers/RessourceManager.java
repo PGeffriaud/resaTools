@@ -1,12 +1,14 @@
 package org.emn.resa.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Query;
 
 import org.emn.resa.entities.Ressource;
 import org.emn.resa.entities.Type;
+import org.emn.resa.entities.User;
 import org.h2.util.StringUtils;
 
 public class RessourceManager extends AbstractObjectManager {
@@ -93,9 +95,35 @@ public class RessourceManager extends AbstractObjectManager {
 		
 		close();
 	}
+	
+	/**
+	 * Ajout d'une ressource avec les types associés
+	 * @param name nom de la ressource
+	 * @param desc description de la ressource
+	 * @param types liste des types associés (ids dans un String[])
+	 */
+	public static void modifyRessource(String id, String[] types, String name, String desc) {
+		if(id != null){
+			init();
+			Ressource ress = em.find(Ressource.class, Integer.parseInt(id));
+			List<Type> liste = new ArrayList<>();
+			for (int i = 0; i < types.length; i++) {
+				Type t = em.find(Type.class, Integer.parseInt(types[i]));
+				if(t != null) liste.add(t);
+			}
+			ress.setName(name);
+			ress.setDescription(desc);
+			ress.setType(liste);
+	
+			em.getTransaction().commit();
+			
+			close();
+		}
+	}
 
-	public static List<Ressource> getRessourceList(String nameQuery) {
+	public static HashMap<String, Ressource> getRessourceList(String nameQuery) {
 		init();
+		HashMap<String, Ressource> listRessources = new HashMap<String, Ressource>();
 		String query = "SELECT r FROM Ressource r";
 		Query q;
 		if(! StringUtils.isNullOrEmpty(nameQuery)){
@@ -107,8 +135,11 @@ public class RessourceManager extends AbstractObjectManager {
 			q = em.createQuery(query);
 		}
 		List<Ressource> list = q.getResultList();
+		for(Ressource ressource : list){
+			listRessources.put(String.valueOf(ressource.getId()), ressource);
+		}
 		close();
-		return list;
+		return listRessources;
 	}
 
 	public static void deleteRessource(int id) {

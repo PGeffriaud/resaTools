@@ -69,6 +69,11 @@ public class TemplateServlet extends HttpServlet {
 						RessourceManager.deleteRessource(Integer.parseInt(idRess));
 					}
 				case "updateress":
+					String[] modifiedTypes = request.getParameterValues("selectType");
+					String modifiedName = request.getParameter("nameRess");
+					String modifiedDesc = request.getParameter("textRess");
+					String id = request.getParameter("id");
+					RessourceManager.modifyRessource(id, modifiedTypes, modifiedName, modifiedDesc);
 					break;
 				default:
 					break;
