@@ -39,20 +39,21 @@
 						method="post" class="form" id="form-goResa">
 						<input type="hidden" name="goResaName"
 							value="${current.value.name}" />
-						<button type="submit" name="goResaId" value="${current.value.id}"
-							class="btn btn-primary btn-sm">Réserver</button>
+						<button title="Réserver la ressource" type="submit" name="goResaId" value="${current.value.id}"
+							class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-calendar"></span></button>
 					</form>
+					<c:if test="${currentSessionUser.isAdmin}">
 					<form style="display: inline;" action="" method="post" class="form"
 						id="form-updateRessource">
-						<button type="submit" name="updateRessourceButton"
+						<button  title="Modifier la ressource" type="submit" name="updateRessourceButton"
 							value="${current.value.id}" class="btn btn-default btn-sm">
 							<span class="glyphicon glyphicon-edit"></span>
 						</button>
-					</form> <c:if test="${currentSessionUser.isAdmin}">
+					</form> 
 						<form style="display: inline;"
 							action="${pageContext.request.contextPath}/action/ressources/delress"
 							method="post" class="form" id="form-delress">
-							<button type="submit" name="delRessButton"
+							<button title="Supprimer la ressource" type="submit" name="delRessButton"
 								value="${current.value.id}" class="btn btn-danger btn-sm">
 								<span class="glyphicon glyphicon-trash"></span>
 							</button>
