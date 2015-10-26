@@ -31,13 +31,31 @@ public class RessourceManager extends AbstractObjectManager {
 		}
 		close();
 	}
+	
+	/**
+	 * Modification d'un type
+	 * @param name le nom du type
+	 */
+	public static void modifyType(String name, String id){
+		if(id != null){
+			init();
+			Type type = em.find(Type.class, Integer.parseInt(id));
+			type.setName(name);
+			em.getTransaction().commit();		
+			close();
+		}
+	}
 
-	public static List<Type> getTypeList() {
+	public static HashMap<String, Type> getTypeList() {
 		init();
+		HashMap<String,Type> listTypes = new HashMap<String,Type>(); 
 		Query q = em.createQuery("SELECT t FROM Type t");
 		List<Type> list = q.getResultList();
+		for(Type type : list){
+			listTypes.put(String.valueOf(type.getId()), type);
+		}
 		close();
-		return list;
+		return listTypes;
 	}
 
 	/**
@@ -97,7 +115,8 @@ public class RessourceManager extends AbstractObjectManager {
 	}
 	
 	/**
-	 * Ajout d'une ressource avec les types associés
+	 * Modification d'une ressource
+	 * @param id id de la ressource
 	 * @param name nom de la ressource
 	 * @param desc description de la ressource
 	 * @param types liste des types associés (ids dans un String[])
