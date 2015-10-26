@@ -104,7 +104,8 @@ public class TemplateServlet extends HttpServlet {
 							Date from = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaFrom"));
 							Date to = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaTo"));
 							boolean addOk = ResaManager.addReservation(idUser, idRess, from, to);
-							request.setAttribute("addOk", addOk);
+							if(addOk) request.setAttribute("validationMessage", "Réservation enregistrée");
+							else request.setAttribute("errorMessage", "La ressource n'a pas pu être réservée: dates invalides");
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -113,6 +114,7 @@ public class TemplateServlet extends HttpServlet {
 					case "delresa":
 						int idResa = Integer.parseInt(request.getParameter("delRessButton"));
 						ResaManager.deleteReservation(idResa);
+						request.setAttribute("validationMessage", "Réservation annulée");
 					default: break;
 				}
 			}
@@ -125,12 +127,13 @@ public class TemplateServlet extends HttpServlet {
 				switch (paths[1]) {
 				case "addUser":
 					boolean addOk = handleUser(request, false);
-					if(addOk) request.setAttribute("validationMessage", " Utilisateur enregistré");
-					else request.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+					if(addOk) request.setAttribute("validationMessage", "Utilisateur enregistré");
+					else request.setAttribute("errorMessage", "Un utilisateur existe déjà avec ce login");
 					break;
 				case "delUser":
 					if(request.getParameter("delUserButton") != null){
 						UserManager.deleteUser(request.getParameter("delUserButton"));
+						request.setAttribute("validationMessage", "Suppression enregistrée");
 					}
 					break;
 				case "updateUser":
