@@ -18,18 +18,20 @@ public class RessourceManager extends AbstractObjectManager {
 	 * @param name le nom du type
 	 */
 	public static void addType(String name){
-		init();
-		Query q = em.createQuery("SELECT t FROM Type t WHERE t.name = :name");
-		q.setParameter("name", name);
-		List<Type> listRes = q.getResultList();
-		
-		if(listRes.size() == 0){
-			Type t = new Type();
-			t.setName(name);
-			em.persist(t);
-			em.getTransaction().commit();
+		if(!name.equals("")){
+			init();
+			Query q = em.createQuery("SELECT t FROM Type t WHERE t.name = :name");
+			q.setParameter("name", name);
+			List<Type> listRes = q.getResultList();
+			
+			if(listRes.size() == 0){
+				Type t = new Type();
+				t.setName(name);
+				em.persist(t);
+				em.getTransaction().commit();
+			}
+			close();
 		}
-		close();
 	}
 	
 	/**
