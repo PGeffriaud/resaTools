@@ -1,15 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div id="body" class="panel panel-default">
 	<div id="tabs" class="panel-body">
-		<!--  Affichage des messages d'erreur  -->
-		<c:if test="${not empty errorMessage}">
-			<div class="alert alert-danger">${errorMessage}</div>
-		</c:if>
-
-		<!--  Affichage des messages de validation  -->
-		<c:if test="${not empty validationMessage}">
-			<div class="alert alert-success">${validationMessage}</div>
-		</c:if>
 		<ul class="nav nav-tabs">
 			<c:if test="${currentSessionUser.isAdmin}">
 				<li class="active"><a href="#tabs-1">Liste des utilisateurs</a></li>
