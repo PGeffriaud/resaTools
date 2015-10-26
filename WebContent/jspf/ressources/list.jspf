@@ -87,8 +87,8 @@
 						<c:set var="listTypeSelected" value="${listTypeSelected}${t.name}" />
 					</c:forEach>
 					<c:forEach items="${listType}" var="i">
-						<c:if test="${!fn:contains(listTypeSelected, i.name)}">
-							<option value="${i.id}">${i.name}</option>
+						<c:if test="${!fn:contains(listTypeSelected, i.value.name)}">
+							<option value="${i.value.id}">${i.value.name}</option>
 						</c:if>
 					</c:forEach>
 				</select>

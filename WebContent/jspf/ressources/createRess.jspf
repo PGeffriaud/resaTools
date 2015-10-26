@@ -12,7 +12,7 @@
 				<select required multiple class="form-control" name="selectType">
 				<option disabled>Choose associated types</option>
 				<c:forEach items="${listType}" var="i">
-					<option value="${i.id}">${i.name}</option>
+					<option value="${i.value.id}">${i.value.name}</option>
 				</c:forEach>
 				</select>
 			</div>
