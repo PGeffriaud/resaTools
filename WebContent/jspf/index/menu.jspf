@@ -9,7 +9,9 @@
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/accueil">Accueil</a></li>
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/ressources">Ressources</a></li>
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/reservations">Réservations</a></li>
+			<c:if test="${currentSessionUser.isAdmin}">
 			<li class="list-group-item"><a href="${pageContext.request.contextPath}/action/user">Utilisateurs</a></li>
+			</c:if>
 		</ul>
 			<div id="body" class="panel panel-default">
 				<div class="panel-heading">Utilisateur</div>

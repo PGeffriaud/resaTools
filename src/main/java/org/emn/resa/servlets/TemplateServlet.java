@@ -131,7 +131,6 @@ public class TemplateServlet extends HttpServlet {
 				}
 			}
 			List<ReservationView> resaList = ResaManager.getResaList();
-			String userLogin = ((User)request.getSession().getAttribute("currentSessionUser")).getLogin();
 			request.getSession().setAttribute("listResa", resaList);
 			break;
 		case "user":
