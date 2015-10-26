@@ -8,15 +8,24 @@
 			<th>Ressource</th><th>Qui</th><th>Date Début</th><th>Date Fin</th></tr>
 	</thead>
 	<tbody>
-	<c:forEach items="${listResa}" var="item">
-	<c:if test="${item.login == currentSessionUser.login}">
-		<tr>
-			<td>${item.nomRessource}</td>
-			<td>${item.login}</td>
-			<td>${item.dateBegin}</td>
-			<td>${item.dateEnd}</td>
-		</tr>
-	</c:if>
-	</c:forEach>
+		<c:forEach items="${listResa}" var="item">
+			<c:if test="${item.login eq currentSessionUser.login}">
+				<tr>
+					<td>${item.nomRessource}</td>
+					<td>${item.login}</td>
+					<td>${item.dateBegin}</td>
+					<td>${item.dateEnd}</td>
+					<td>
+						<form
+							action="${pageContext.request.contextPath}/action/reservations/delresa"
+							method="post" class="form" id="form-delress">
+							<button type="submit" name="delRessButton" value="${item.id}" class="btn btn-danger btn-sm" title="Annuler la réservation">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</form>
+					</td>
+				</tr>
+			</c:if>
+		</c:forEach>
 	</tbody>
 </table>

@@ -100,16 +100,19 @@ public class TemplateServlet extends HttpServlet {
 					case "addresa":
 						int idUser = Integer.parseInt(request.getParameter("idUser"));
 						int idRess = Integer.parseInt(request.getParameter("idRess"));
-					try {
-						Date from = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaFrom"));
-						Date to = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaTo"));
-						boolean addOk = ResaManager.addReservation(idUser, idRess, from, to);
-						request.setAttribute("addOk", addOk);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+						try {
+							Date from = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaFrom"));
+							Date to = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateResaTo"));
+							boolean addOk = ResaManager.addReservation(idUser, idRess, from, to);
+							request.setAttribute("addOk", addOk);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
+					case "delresa":
+						int idResa = Integer.parseInt(request.getParameter("delRessButton"));
+						ResaManager.deleteReservation(idResa);
 					default: break;
 				}
 			}
