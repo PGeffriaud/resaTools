@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.emn.resa.entities.Reservation;
 import org.emn.resa.entities.Ressource;
 import org.emn.resa.entities.Type;
 import org.emn.resa.entities.User;
@@ -73,15 +74,20 @@ public class RessourceManager extends AbstractObjectManager {
 	public static boolean deleteType(Integer id) {
 		init();
 		boolean updateOk = false;
+		boolean ressourceBooked = false;
 		Type t = em.find(Type.class, id);
 		if(t != null){
 			Query q = em.createQuery("SELECT r FROM Ressource r");
 			List<Ressource> ressources = q.getResultList();
 			for (Ressource r : ressources) {
 				Ressource actual = em.find(Ressource.class, r.getId());
-				// suppression de la ressource si elle n'a que le type t d'associé
+				// suppression de la ressource si elle n'a que le type t d'associé 
+				//et qu'elle ne se trouve pas dans une réservation
 				if(r.getType().size() == 1 && r.getType().contains(t)){
-					if(r != null) em.remove(actual);
+					if(r != null && !isBooked(r)){
+						em.remove(actual);
+					}
+					else ressourceBooked = true;
 				}
 				// Suppression du type à toutes les ressources associées
 				else if(r.getType().contains(t)){
@@ -89,14 +95,14 @@ public class RessourceManager extends AbstractObjectManager {
 				}
 				
 			}
-			em.remove(t);
-			em.getTransaction().commit();
-			updateOk = true;
+			if(! ressourceBooked){
+				
+				em.remove(t);
+				em.getTransaction().commit();
+				updateOk = true;
+			}
 		}
 		
-		/*TODO contrôle d'intégrité: ne pas supprimer le type si
-		 * une ressource va être supprimée
-		 * et que cette ressource va être/est réservée*/
 		close();
 		return updateOk;
 	}
@@ -176,12 +182,26 @@ public class RessourceManager extends AbstractObjectManager {
 		init();
 		boolean delOk = false;
 		Ressource r = em.find(Ressource.class, id);
-		if(r != null){
+		if(r != null && !isBooked(r)){
 			em.remove(r);
 			em.getTransaction().commit();
 			delOk = true;
 		}
 		close();
 		return delOk;
+	}
+	
+	/**
+	 * Return true si la ressource est ou va être réservé
+	 * Pré: EntityManager is open
+	 * Post: EntityManager is not closed
+	 * @param r la ressource à vérifier
+	 * @return
+	 */
+	private static boolean isBooked(Ressource r){
+		Query q = em.createQuery("Select resa from Reservation resa where resa.ressource = :ress");
+		q.setParameter("ress", r);
+		List<Reservation> liste = q.getResultList();
+		return !liste.isEmpty();
 	}
 }

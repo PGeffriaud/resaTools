@@ -85,6 +85,7 @@ public class TemplateServlet extends HttpServlet {
 						else request.setAttribute("errorMessage", "La ressource est en cours de réservation: suppression impossible");
 						
 					}
+					break;
 				case "updateress":
 					String[] modifiedTypes = request.getParameterValues("selectType");
 					String modifiedName = request.getParameter("nameRess");
