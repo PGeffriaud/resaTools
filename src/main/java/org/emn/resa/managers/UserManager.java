@@ -47,65 +47,54 @@ public class UserManager extends AbstractObjectManager {
 	 * Cette méthode permet d'ajouter un utilisateur en base
 	 * @param request
 	 */
-	public static HttpServletRequest addUser(HttpServletRequest request){
+	public static boolean addUser(String name, String fstName, String login, String pwd, String mail, String phone, String admin){
 		init();
-		HttpServletRequest localRequest = request;
-		if(verifyLogin(request.getParameter("login"))){
-			User user = new User();
-			if(request.getParameter("name") != null){
-				user.setFirstname(request.getParameter("name"));
-				boolean admin = request.getParameter("admin") != null ;
-				user.setIsAdmin(admin);
-				user.setLogin(request.getParameter("login"));
-				user.setPassword(request.getParameter("pwd"));
-				user.setMail(request.getParameter("email"));
-				user.setName(request.getParameter("firstname"));
-				user.setPhone(request.getParameter("phone"));
-				em.persist(user);
-				em.getTransaction().commit();
-				localRequest.setAttribute("validationMessage", " Utilisateur enregistré");
-			}
-		}
+		boolean transacOk = true;
+		if(! verifyLogin(login)) transacOk = false;
 		else{
-			localRequest.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+			User user = new User();
+			user.setFirstname(fstName);
+			user.setIsAdmin(admin != null);
+			user.setLogin(login);
+			user.setPassword(pwd);
+			user.setMail(mail);
+			user.setName(name);
+			user.setPhone(phone);
+			em.persist(user);
+			em.getTransaction().commit();
 		}
 		close();
-		return localRequest;
+		return transacOk;
 	}
 	
 	/**
 	 * Cette méthode permet d'ajouter un modifier un utilisateur en base
 	 * @param request
 	 */
-	public static HttpServletRequest modifyUser(HttpServletRequest request){
+	public static boolean modifyUser(String id, String name, String fstName, String login, String pwd, String mail, String phone, String admin){
 		init();
-		HttpServletRequest localRequest = request;
-		if(request.getParameter("id") != null){
-			User user = em.find(User.class, Integer.parseInt(request.getParameter("id")));
-			boolean verification = true;
+		boolean verification = false;
+		if(id != null){
+			User user = em.find(User.class, Integer.parseInt(id));
+			verification = true;
 			if(user != null){
-				if(!user.getLogin().equals(request.getParameter("login"))){
-					if(!verifyLogin(request.getParameter("login"))){
-						verification = false;
-						localRequest.setAttribute("errorMessage", " Un utilisateur existe déjà avec ce login");
+				if(!user.getLogin().equals(login)){
+					verification = verifyLogin(login);
 					}
 				}
 				if(verification){
-					user.setFirstname(request.getParameter("name"));
-					boolean admin = request.getParameter("admin") != null ;
-					user.setIsAdmin(admin);
-					user.setLogin(request.getParameter("login"));
-					user.setPassword(request.getParameter("pwd"));
-					user.setMail(request.getParameter("email"));
-					user.setName(request.getParameter("firstname"));
-					user.setPhone(request.getParameter("phone"));
+					user.setFirstname(fstName);
+					user.setIsAdmin(admin != null);
+					user.setLogin(login);
+					user.setPassword(pwd);
+					user.setMail(mail);
+					user.setName(name);
+					user.setPhone(phone);
 					em.getTransaction().commit();
-					localRequest.setAttribute("validationMessage", " Modification enregistrée");
 				}
 			}
-		}
 		close();
-		return localRequest;
+		return verification;
 	}
 	
 	/**
@@ -117,8 +106,6 @@ public class UserManager extends AbstractObjectManager {
 		Query q = em.createQuery("SELECT u FROM User u WHERE u.login = :login");
 		q.setParameter("login", login);
 		List utilisateurs = q.getResultList();
-		if (utilisateurs.isEmpty()) {
-			return true;
-		} return false;
+		return (utilisateurs.isEmpty());
 	}
 }
