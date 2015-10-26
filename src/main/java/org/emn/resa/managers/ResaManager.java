@@ -80,5 +80,15 @@ public class ResaManager extends AbstractObjectManager {
 		return liste;
 	}
 
+	public static void deleteReservation(int idResa) {
+		init();
+		Reservation resa = em.find(Reservation.class, idResa);
+		if(resa != null){
+			em.remove(resa);
+			em.getTransaction().commit();
+		}
+		close();
+	}
+
 	
 }
